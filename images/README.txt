@@ -1,0 +1,1 @@
+Photo assets for the Jurassic Matt gallery live in this folder. Kualoa Ranch and ZooTampa albums are being added from the September 2026 site update.
