@@ -1,1 +1,1 @@
-Album placeholder for Jurassic World: Fallen Kingdom photos. The screenshot shows a July 10 date, but the year is truncated; add/rename once the exact year is confirmed.
+Album placeholder for Jurassic World: Fallen Kingdom photos. Visit date: July 10, 2018.
