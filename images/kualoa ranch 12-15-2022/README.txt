@@ -1,0 +1,1 @@
+Album placeholder for Kualoa Ranch, Oahu, December 15, 2022.
