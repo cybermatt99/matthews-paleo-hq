@@ -1,0 +1,1 @@
+Album placeholder for Dinosaur World, Plant City, Florida, April 27, 2021.
