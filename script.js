@@ -1,346 +1,171 @@
 (function(){
-  const buttons = document.querySelectorAll('.nav-btn');
-  const pages = document.querySelectorAll('.page');
+  const pages = [...document.querySelectorAll('.page')];
+  const navButtons = [...document.querySelectorAll('.nav-btn')];
+  const oldHashMap = {studies:'study',credentials:'archive',field:'archive',fossils:'collection',dinosauria:'dinodex',reading:'study',gallery:'photos',resources:'archive'};
 
-  function go(page, smooth = true){
-    const target = document.getElementById('page-' + page);
+  let sfxEnabled = localStorage.getItem('jmSfx') !== 'off';
+  let audioCtx = null;
+  const soundToggle = document.getElementById('soundToggle');
+
+  function tone(freq=520,duration=.045,volume=.018){
+    if(!sfxEnabled) return;
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square'; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(volume,audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime + duration);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + duration);
+    }catch(e){}
+  }
+
+  function updateSoundLabel(){
+    if(!soundToggle) return;
+    soundToggle.textContent = 'SFX: ' + (sfxEnabled ? 'ON' : 'OFF');
+    soundToggle.setAttribute('aria-pressed',String(sfxEnabled));
+  }
+  updateSoundLabel();
+  soundToggle?.addEventListener('click',()=>{sfxEnabled=!sfxEnabled;localStorage.setItem('jmSfx',sfxEnabled?'on':'off');updateSoundLabel();if(sfxEnabled) tone(660,.06,.02)});
+
+  function go(page,smooth=true){
+    const mapped = oldHashMap[page] || page;
+    const target = document.getElementById('page-' + mapped);
     if(!target) return;
-    pages.forEach(p => p.classList.toggle('active', p === target));
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.page === page));
-    if(history.replaceState) history.replaceState(null, '', '#' + page);
-    else window.location.hash = page;
-    window.scrollTo({top:0, behavior:smooth ? 'smooth' : 'auto'});
-    document.title = page === 'home'
-      ? 'Jurassic Matt | Dinosaurs, Fossils & Amateur Paleontology'
-      : 'Jurassic Matt | ' + (document.querySelector('.nav-btn[data-page="' + page + '"]')?.textContent.trim() || page);
+    pages.forEach(p=>p.classList.toggle('active',p===target));
+    navButtons.forEach(b=>b.classList.toggle('active',b.dataset.page===mapped));
+    if(history.replaceState) history.replaceState(null,'','#'+mapped); else location.hash = mapped;
+    document.title = mapped === 'home' ? 'Jurassic Matt | Field Terminal' : 'Jurassic Matt | ' + (navButtons.find(b=>b.dataset.page===mapped)?.textContent.trim() || mapped);
+    if(smooth) window.scrollTo({top:0,behavior:'smooth'}); else window.scrollTo(0,0);
+    tone(mapped==='dinodex'?620:480,.04,.014);
   }
 
-  function bindInternalLinks(root = document){
-    root.querySelectorAll('[data-goto]').forEach(el => {
-      if(el.dataset.bound === '1') return;
-      el.dataset.bound = '1';
-      el.setAttribute('role','link');
-      el.setAttribute('tabindex','0');
-      el.addEventListener('click', () => go(el.dataset.goto));
-      el.addEventListener('keydown', e => {
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          go(el.dataset.goto);
-        }
-      });
-    });
+  navButtons.forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+  document.addEventListener('click',e=>{
+    const el = e.target.closest('[data-goto]');
+    if(el){ e.preventDefault(); go(el.dataset.goto); }
+  });
+  const incoming = location.hash.replace('#','');
+  if(incoming && document.getElementById('page-'+(oldHashMap[incoming]||incoming))) go(incoming,false);
+
+  function updateClock(){
+    const el=document.getElementById('systemClock'); if(!el) return;
+    const d=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    el.textContent=`${p(d.getMonth()+1)}/${p(d.getDate())}/${d.getFullYear()}  ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
   }
+  updateClock(); setInterval(updateClock,1000);
 
-  buttons.forEach(b => b.addEventListener('click', () => go(b.dataset.page)));
-  bindInternalLinks();
-
-  const hash = location.hash.replace('#','');
-  if(hash && document.getElementById('page-' + hash)) go(hash, false);
-
-  let count = Number(localStorage.getItem('jurassicMattVisits') || '0') + 1;
-  localStorage.setItem('jurassicMattVisits', String(count));
-  const counter = document.getElementById('visitCounter');
-  if(counter) counter.textContent = String(count).padStart(7,'0');
-  const year = document.getElementById('copyrightYear');
-  if(year) year.textContent = new Date().getFullYear();
-
-  function applyProfileUpdates(){
-    const milestoneItems = [...document.querySelectorAll('#page-home .progress-list li')];
-    const clubMilestone = milestoneItems.find(li => li.textContent.includes('Tampa Bay Fossil Club'));
-    if(clubMilestone){
-      clubMilestone.innerHTML = '<div class="progress-icon done">✓</div><div><div class="done"><strong>Tampa Bay Fossil Club</strong></div><div class="small">Active member · Joined September 2026</div></div>';
-    }
-
-    const fieldMilestone = milestoneItems.find(li => li.textContent.includes('First Florida Field Trip'));
-    if(fieldMilestone){
-      fieldMilestone.innerHTML = '<div class="progress-icon pending">•</div><div><div><strong>First Florida Field Trip</strong></div><div class="small">Considering Peace River · September 12, 2026</div></div>';
-    }
-
-    const credentialPanels = [...document.querySelectorAll('#page-credentials article.panel')];
-    const clubPanel = credentialPanels.find(p => p.querySelector('h2')?.textContent.includes('Tampa Bay Fossil Club'));
-    if(clubPanel){
-      const body = clubPanel.querySelector('.panel-body');
-      if(body) body.innerHTML = '<div class="done"><strong>Active member</strong></div><p class="small">Joined September 2026. Membership confirmed and the September Tampa Bay Fossil Chronicles newsletter received.</p>';
-    }
-
-    const fieldPanels = [...document.querySelectorAll('#page-field article.panel')];
-    const floridaPanel = fieldPanels.find(p => p.querySelector('h2')?.textContent.trim() === 'Florida');
-    if(floridaPanel){
-      const body = floridaPanel.querySelector('.panel-body');
-      if(body) body.innerHTML = '<p><strong>Next goal:</strong> first Tampa Bay Fossil Club field trip.</p><p class="small">Active TBFC member as of September 2026. The September 12 Peace River trip in Wauchula is the first trip under consideration.</p>';
-    }
-
-    const homeFieldPanel = [...document.querySelectorAll('#page-home article.panel')].find(p => p.querySelector('h2')?.textContent.includes('Field Plans'));
-    if(homeFieldPanel){
-      const items = [...homeFieldPanel.querySelectorAll('.timeline-item')];
-      const florida = items.find(i => i.textContent.includes('Florida fossil collecting'));
-      const peace = items.find(i => i.textContent.includes('Peace River'));
-      if(florida) florida.innerHTML = '<strong>Florida fossil collecting</strong><div class="small">Active Tampa Bay Fossil Club member; building local field experience</div>';
-      if(peace) peace.innerHTML = '<strong>Peace River</strong><div class="small">September 12, 2026 club trip under consideration</div>';
-    }
-  }
-
-  applyProfileUpdates();
-
-  const albums = [
-    {
-      id:'kualoa',
-      folder:'images/kualoa ranch 12-15-2022',
-      title:'Kualoa Ranch, Oahu',
-      date:'December 15, 2022',
-      place:'Oahu, Hawaii',
-      description:'Arielle and I visited Kualoa Ranch during our Hawaii wedding and honeymoon trip. We toured Jurassic filming locations, saw several dinosaur-themed stops and set pieces, and got a very rainy day in the valley.',
-      featured:true,
-      featureFirst:true
-    },
-    {
-      id:'dinos-unearthed',
-      folder:'images/dinos unearthed 2-27-2025',
-      title:'Dinos Unearthed',
-      date:'February 27, 2025',
-      place:'',
-      description:'Photos from a visit to Dinos Unearthed in February 2025.'
-    },
-    {
-      id:'jurassic-quest',
-      folder:'images/jurassic quest 7-21-2024',
-      title:'Jurassic Quest',
-      date:'July 21, 2024',
-      place:'',
-      description:'Photos from Jurassic Quest in July 2024.'
-    },
-    {
-      id:'prehistoric-predators',
-      folder:'images/prehistoric predators zoo tampa',
-      title:'ZooTampa: Prehistoric Predators',
-      date:'2024',
-      place:'Tampa, Florida',
-      description:'ZooTampa\'s Prehistoric Predators exhibit ran from January 13 through April 28, 2024. These are photos from our visit during that run.'
-    },
-    {
-      id:'dinosaur-world',
-      folder:'images/dinosaur world plant city fl 04-27-2021',
-      title:'Dinosaur World',
-      date:'April 27, 2021',
-      place:'Plant City, Florida',
-      description:'A visit to Dinosaur World in Plant City, Florida.'
-    },
-    {
-      id:'dinos-alive',
-      folder:'images/dinos alive 8-10-2020',
-      title:'ZooTampa: Dinos Alive!',
-      date:'August 10, 2020',
-      place:'Tampa, Florida',
-      description:'A very 2020 dinosaur outing, masks included. ZooTampa\'s Dinos Alive! event had life-size dinosaur models throughout the park.',
-      featureFirst:true
-    },
-    {
-      id:'fallen-kingdom',
-      folder:'images/jurassic world fallen kingdom',
-      title:'Jurassic World: Fallen Kingdom',
-      date:'July 10, 2018',
-      place:'',
-      description:'Photos from a Jurassic World: Fallen Kingdom outing in July 2018.'
-    }
+  const species = [
+    {name:'Spinosaurus aegyptiacus',abbr:'SP',category:'dinosaur',favorite:true,group:'Spinosaurid theropod',period:'Late Cretaceous',region:'North Africa',diet:'Carnivore / fish-eater',summary:'A giant sail-backed theropod with unusually strong evidence for close ecological ties to aquatic habitats.'},
+    {name:'Tyrannosaurus rex',abbr:'TR',category:'dinosaur',favorite:true,group:'Tyrannosaurid theropod',period:'Late Cretaceous',region:'North America',diet:'Carnivore',summary:'A massive late-surviving tyrannosaur with exceptional bite force, robust teeth, and some of the best-studied theropod anatomy.'},
+    {name:'Velociraptor',abbr:'VR',category:'dinosaur',favorite:true,group:'Dromaeosaurid theropod',period:'Late Cretaceous',region:'Mongolia',diet:'Carnivore',summary:'A small feathered dromaeosaur known from excellent Mongolian fossils, including the famous fighting dinosaurs specimen.'},
+    {name:'Brachiosaurus',abbr:'BR',category:'dinosaur',favorite:true,group:'Sauropod dinosaur',period:'Late Jurassic',region:'North America',diet:'Herbivore',summary:'A tall-fronted sauropod with elongated forelimbs and a high browsing body plan.'},
+    {name:'Triceratops',abbr:'TC',category:'dinosaur',favorite:true,group:'Ceratopsid dinosaur',period:'Late Cretaceous',region:'North America',diet:'Herbivore',summary:'A large horned dinosaur with two long brow horns, a nasal horn, and a broad bony frill.'},
+    {name:'Stegosaurus',abbr:'ST',category:'dinosaur',group:'Stegosaurian dinosaur',period:'Late Jurassic',region:'North America',diet:'Herbivore',summary:'A plated herbivore with paired dorsal plates and a tail armed with large spikes.'},
+    {name:'Dilophosaurus',abbr:'DI',category:'dinosaur',group:'Theropod dinosaur',period:'Early Jurassic',region:'North America',diet:'Carnivore',summary:'An early large-bodied theropod recognized by paired cranial crests.'},
+    {name:'Pterodactyl',abbr:'PT',category:'other',group:'Pterosaur',period:'Mesozoic',region:'Various',diet:'Varied',summary:'A familiar informal label for pterodactyloid pterosaurs. This entry is a starting point for more precise pterosaur study.'},
+    {name:'Deinonychus',abbr:'DE',category:'dinosaur',group:'Dromaeosaurid theropod',period:'Early Cretaceous',region:'North America',diet:'Carnivore',summary:'The dromaeosaur whose anatomy helped transform the modern view of dinosaurs as active, dynamic animals.'},
+    {name:'Giganotosaurus',abbr:'GI',category:'dinosaur',group:'Carcharodontosaurid theropod',period:'Late Cretaceous',region:'South America',diet:'Carnivore',summary:'A gigantic South American carcharodontosaurid and one of the largest known terrestrial predators.'},
+    {name:'Megalodon',abbr:'ME',category:'marine',group:'Megatooth shark',period:'Miocene to Pliocene',region:'Worldwide seas',diet:'Carnivore',summary:'An enormous extinct shark known especially from its huge, abundant fossil teeth.'},
+    {name:'Mosasaurus',abbr:'MO',category:'marine',group:'Mosasaurid marine reptile',period:'Late Cretaceous',region:'Global seas',diet:'Carnivore',summary:'A giant marine squamate and apex predator of Late Cretaceous oceans.'},
+    {name:'Liopleurodon',abbr:'LI',category:'marine',group:'Pliosaurid marine reptile',period:'Middle Jurassic',region:'Europe',diet:'Carnivore',summary:'A large short-necked pliosaur with a powerful skull and marine predatory lifestyle.'},
+    {name:'Titanoboa',abbr:'TB',category:'other',group:'Giant snake',period:'Paleocene',region:'South America',diet:'Carnivore',summary:'An enormous post-dinosaur snake from tropical Paleocene ecosystems.'},
+    {name:'Carnotaurus',abbr:'CA',category:'dinosaur',group:'Abelisaurid theropod',period:'Late Cretaceous',region:'South America',diet:'Carnivore',summary:'A distinctive horned abelisaurid with tiny forelimbs and a deep, short skull.'},
+    {name:'Ceratosaurus',abbr:'CE',category:'dinosaur',group:'Ceratosaurian theropod',period:'Late Jurassic',region:'North America / Europe',diet:'Carnivore',summary:'A Jurassic predator known for a prominent nasal horn and blade-like teeth.'},
+    {name:'Dimetrodon',abbr:'DM',category:'other',group:'Non-mammalian synapsid',period:'Early Permian',region:'North America / Europe',diet:'Carnivore',summary:'A sail-backed synapsid that lived long before dinosaurs and is closer to mammals than to reptiles.'},
+    {name:'Allosaurus',abbr:'AL',category:'dinosaur',group:'Allosauroid theropod',period:'Late Jurassic',region:'North America / Europe',diet:'Carnivore',summary:'One of the dominant large predators of Late Jurassic ecosystems.'},
+    {name:'Brontosaurus',abbr:'BN',category:'dinosaur',group:'Diplodocid sauropod',period:'Late Jurassic',region:'North America',diet:'Herbivore',summary:'A massive diplodocid sauropod with a long neck and whip-like tail.'},
+    {name:'Argentinosaurus',abbr:'AR',category:'dinosaur',group:'Titanosaur sauropod',period:'Late Cretaceous',region:'South America',diet:'Herbivore',summary:'A gigantic titanosaur represented by incomplete remains but widely regarded among the largest known land animals.'},
+    {name:'Utahraptor',abbr:'UT',category:'dinosaur',group:'Dromaeosaurid theropod',period:'Early Cretaceous',region:'North America',diet:'Carnivore',summary:'A very large dromaeosaur with powerful limbs and enlarged sickle claws.'},
+    {name:'Oviraptor',abbr:'OV',category:'dinosaur',group:'Oviraptorosaur theropod',period:'Late Cretaceous',region:'Mongolia',diet:'Omnivore',summary:'A beaked theropod whose reputation as an egg thief was overturned by nesting evidence.'},
+    {name:'Compsognathus',abbr:'CO',category:'dinosaur',group:'Small theropod',period:'Late Jurassic',region:'Europe',diet:'Carnivore',summary:'A small lightly built theropod historically famous for its diminutive size.'},
+    {name:'Troodon',abbr:'TO',category:'dinosaur',group:'Troodontid archive label',period:'Late Cretaceous',region:'North America',diet:'Carnivore / omnivore',summary:'A historically important but taxonomically complicated name. This dossier is a good place to track the ongoing classification story.'},
+    {name:'Gallimimus',abbr:'GA',category:'dinosaur',group:'Ornithomimid theropod',period:'Late Cretaceous',region:'Mongolia',diet:'Omnivore',summary:'A large ostrich-like ornithomimid built for fast terrestrial locomotion.'},
+    {name:'Iguanodon',abbr:'IG',category:'dinosaur',group:'Ornithopod dinosaur',period:'Early Cretaceous',region:'Europe',diet:'Herbivore',summary:'A historically important ornithopod famous for its thumb spike and changing reconstructions through the history of paleontology.'}
   ];
 
-  const galleryStyles = document.createElement('style');
-  galleryStyles.textContent = `
-    .gallery-intro{margin:0;line-height:1.55}
-    .album-index{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-    .album-card{border:2px solid #6f5a3c;background:#17120e;cursor:pointer;overflow:hidden;transition:transform .15s ease,border-color .15s ease}
-    .album-card:hover,.album-card:focus{transform:translateY(-2px);border-color:var(--gold);outline:none}
-    .album-card-cover{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0d0a08}
-    .album-card-copy{padding:11px 12px 13px}
-    .album-card-title{font-size:18px;font-weight:bold;color:var(--gold);margin-bottom:3px}
-    .album-card-meta{font-size:12px;opacity:.78}
-    .album-card-count{font-size:12px;margin-top:7px;color:#d8c69d}
-    .album-section{scroll-margin-top:15px}
-    .album-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:12px}
-    .album-copy{max-width:850px;line-height:1.5}
-    .album-date{color:var(--gold);font-weight:bold;margin-bottom:5px}
-    .album-meta{color:#d8c69d;font-size:12px;white-space:nowrap}
-    .real-gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-    .gallery-photo{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;background:#0d0a08;border:2px solid #6f5a3c;cursor:zoom-in}
-    .gallery-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .18s ease,filter .18s ease}
-    .gallery-photo:hover img{transform:scale(1.025);filter:brightness(1.05)}
-    .gallery-photo.featured{grid-column:span 2;grid-row:span 2;aspect-ratio:auto;min-height:360px}
-    .gallery-photo-label{position:absolute;left:0;right:0;bottom:0;padding:25px 9px 7px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:11px;color:#eee1c3;opacity:0;transition:opacity .15s ease}
-    .gallery-photo:hover .gallery-photo-label{opacity:1}
-    .album-section.collapsed .gallery-photo:nth-child(n+9){display:none}
-    .album-toggle{margin-top:12px;background:#24180f;color:#ead8af;border:1px solid #8b6f49;padding:7px 11px;font:inherit;cursor:pointer}
-    .album-toggle:hover{border-color:var(--gold);color:#fff1c9}
-    .home-trip-feature{display:grid;grid-template-columns:minmax(220px,1.15fr) 1fr;gap:16px;align-items:center}
-    .home-trip-photo{width:100%;aspect-ratio:4/3;object-fit:cover;border:2px solid #7b6848;display:block;cursor:pointer}
-    .home-trip-title{color:var(--gold);font-size:21px;font-weight:bold}
-    .gallery-loading{padding:24px;text-align:center;opacity:.7}
-    .gallery-error{padding:18px;border:1px solid #7c523e;background:#22110e;color:#efcfbe}
-    .photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9999;display:none;align-items:center;justify-content:center;padding:28px}
-    .photo-lightbox.open{display:flex}
-    .photo-lightbox-inner{position:relative;max-width:min(1200px,94vw);max-height:92vh;display:flex;flex-direction:column;align-items:center}
-    .photo-lightbox-img{max-width:100%;max-height:82vh;object-fit:contain;box-shadow:0 8px 40px #000}
-    .photo-lightbox-caption{margin-top:9px;color:#e8dcc5;font-size:13px;text-align:center}
-    .lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;background:rgba(20,15,11,.78);color:#fff;border:1px solid #9a8464;cursor:pointer;font-size:24px;line-height:1;padding:9px 12px}
-    .lightbox-close{right:0;top:-46px}.lightbox-prev{left:-58px;top:45%}.lightbox-next{right:-58px;top:45%}
-    @media(max-width:1000px){.album-index{grid-template-columns:repeat(2,minmax(0,1fr))}.real-gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.gallery-photo.featured{min-height:300px}.home-trip-feature{grid-template-columns:1fr 1fr}}
-    @media(max-width:720px){.album-index{grid-template-columns:1fr}.real-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-photo.featured{grid-column:span 2;grid-row:span 1;min-height:230px}.home-trip-feature{grid-template-columns:1fr}.album-head{display:block}.album-meta{margin-top:8px}.lightbox-prev{left:4px}.lightbox-next{right:4px}.photo-lightbox{padding:14px}}
-  `;
-  document.head.appendChild(galleryStyles);
+  const featuredGrid=document.getElementById('featuredSpeciesGrid');
+  const listGrid=document.getElementById('speciesListGrid');
+  const searchInput=document.getElementById('speciesSearch');
+  const filters=[...document.querySelectorAll('.filter')];
+  let currentFilter='all';
 
-  const lightbox = document.createElement('div');
-  lightbox.className = 'photo-lightbox';
-  lightbox.setAttribute('aria-hidden','true');
-  lightbox.innerHTML = '<div class="photo-lightbox-inner"><button class="lightbox-close" aria-label="Close photo">×</button><button class="lightbox-prev" aria-label="Previous photo">‹</button><img class="photo-lightbox-img" alt="" /><button class="lightbox-next" aria-label="Next photo">›</button><div class="photo-lightbox-caption"></div></div>';
-  document.body.appendChild(lightbox);
-
-  let lightboxItems = [];
-  let lightboxIndex = 0;
-  const lightboxImg = lightbox.querySelector('.photo-lightbox-img');
-  const lightboxCaption = lightbox.querySelector('.photo-lightbox-caption');
-
-  function showLightbox(index){
-    if(!lightboxItems.length) return;
-    lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
-    const item = lightboxItems[lightboxIndex];
-    lightboxImg.src = item.src;
-    lightboxImg.alt = item.alt;
-    lightboxCaption.textContent = item.caption;
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
+  function speciesMatches(s,q){
+    const text=(s.name+' '+s.group+' '+s.period+' '+s.region+' '+s.diet).toLowerCase();
+    if(q && !text.includes(q)) return false;
+    if(currentFilter==='favorite' && !s.favorite) return false;
+    if(currentFilter==='dinosaur' && s.category!=='dinosaur') return false;
+    if(currentFilter==='marine' && s.category!=='marine') return false;
+    if(currentFilter==='other' && s.category!=='other') return false;
+    return true;
   }
 
-  function closeLightbox(){
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
+  function renderSpecies(){
+    if(!featuredGrid||!listGrid) return;
+    const q=(searchInput?.value||'').trim().toLowerCase();
+    const matches=species.filter(s=>speciesMatches(s,q));
+    let featureSet = currentFilter==='all' && !q ? species.filter(s=>s.favorite) : matches.slice(0,5);
+    featuredGrid.innerHTML=featureSet.map(s=>`<article class="species-card"><div class="species-name">${s.name}</div><div class="species-visual"><span>${s.abbr}</span></div><div class="species-facts">GROUP: ${s.group}<br>PERIOD: ${s.period}<br>REGION: ${s.region}<br>DIET: ${s.diet}</div><button data-species="${s.name}">VIEW DOSSIER ▶</button></article>`).join('');
+    const featureNames=new Set(featureSet.map(s=>s.name));
+    const remainder=matches.filter(s=>!featureNames.has(s.name));
+    listGrid.innerHTML=remainder.map(s=>`<button class="species-list-item" data-species="${s.name}">${s.name}<span>▶</span></button>`).join('') || '<div class="species-list-item">NO MATCHING RECORDS</div>';
   }
+  renderSpecies();
+  searchInput?.addEventListener('input',renderSpecies);
+  filters.forEach(f=>f.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));f.classList.add('active');currentFilter=f.dataset.filter;renderSpecies();tone(700,.035,.012)}));
 
-  lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-  lightbox.querySelector('.lightbox-prev').addEventListener('click', () => showLightbox(lightboxIndex - 1));
-  lightbox.querySelector('.lightbox-next').addEventListener('click', () => showLightbox(lightboxIndex + 1));
-  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => {
-    if(!lightbox.classList.contains('open')) return;
-    if(e.key === 'Escape') closeLightbox();
-    if(e.key === 'ArrowLeft') showLightbox(lightboxIndex - 1);
-    if(e.key === 'ArrowRight') showLightbox(lightboxIndex + 1);
-  });
-
-  const treeApi = 'https://api.github.com/repos/cybermatt99/matthews-paleo-hq/git/trees/main?recursive=1';
-  const rawBase = 'https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/';
-  const imageRe = /\.(jpe?g|png|webp|gif)$/i;
-
-  function rawUrl(path){
-    return rawBase + path.split('/').map(encodeURIComponent).join('/');
+  const modal=document.getElementById('speciesModal');
+  const modalContent=document.getElementById('speciesModalContent');
+  const modalClose=document.getElementById('speciesModalClose');
+  function noteKey(name){return 'jmSpeciesNote::'+name}
+  function updateNoteCount(){const el=document.getElementById('savedNotesCount');if(!el)return;const n=species.filter(s=>(localStorage.getItem(noteKey(s.name))||'').trim()).length;el.textContent=String(n).padStart(2,'0')}
+  function openSpecies(name){
+    const s=species.find(x=>x.name===name); if(!s||!modalContent) return;
+    const saved=localStorage.getItem(noteKey(s.name))||'';
+    modalContent.innerHTML=`<div class="dossier-body"><div class="dossier-icon">${s.abbr}</div><div class="dossier-data"><h2>${s.name}</h2><div class="terminal-meta">${s.group.toUpperCase()} // ${s.period.toUpperCase()}</div><p><b>Region:</b> ${s.region}<br><b>Diet:</b> ${s.diet}</p><p>${s.summary}</p></div><div class="dossier-notes"><label>PERSONAL RESEARCH NOTES // SAVED TO THIS BROWSER</label><textarea id="dossierTextarea" placeholder="Add questions, observations, sources to revisit, reconstruction notes, or anything else you want to remember...">${saved.replace(/</g,'&lt;')}</textarea><button class="terminal-button save-note" id="saveDossierNote">SAVE NOTES <span>▶</span></button></div></div>`;
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; tone(780,.05,.014);
+    document.getElementById('saveDossierNote')?.addEventListener('click',()=>{localStorage.setItem(noteKey(s.name),document.getElementById('dossierTextarea').value);updateNoteCount();tone(900,.06,.018)});
   }
+  function closeSpecies(){modal?.classList.remove('open');modal?.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+  document.addEventListener('click',e=>{const el=e.target.closest('[data-species]');if(el){e.preventDefault();openSpecies(el.dataset.species)}});
+  modalClose?.addEventListener('click',closeSpecies); modal?.addEventListener('click',e=>{if(e.target===modal)closeSpecies()});
+  updateNoteCount();
 
-  function albumFiles(tree, folder){
-    const prefix = folder + '/';
-    return tree
-      .filter(item => item.type === 'blob' && item.path.startsWith(prefix) && imageRe.test(item.path))
-      .map(item => ({path:item.path, src:rawUrl(item.path)}))
-      .sort((a,b) => a.path.localeCompare(b.path, undefined, {numeric:true}));
-  }
+  const albums=[
+    {id:'kualoa',folder:'images/kualoa ranch 12-15-2022',title:'Kualoa Ranch, Oahu',date:'December 15, 2022',place:'Oahu, Hawaii',description:'Arielle and I visited Kualoa Ranch during our Hawaii wedding and honeymoon trip. We toured Jurassic filming locations, saw dinosaur-themed stops and set pieces, and got a very rainy day in the valley.',cover:'491420852_9718244551586388_1127477591582424271_n (1).jpg',featured:true},
+    {id:'dinos-unearthed',folder:'images/dinos unearthed 2-27-2025',title:'Dinos Unearthed',date:'February 27, 2025',place:'',description:'Photos from a visit to Dinos Unearthed in February 2025.'},
+    {id:'jurassic-quest',folder:'images/jurassic quest 7-21-2024',title:'Jurassic Quest',date:'July 21, 2024',place:'',description:'Photos from Jurassic Quest in July 2024.'},
+    {id:'prehistoric-predators',folder:'images/prehistoric predators zoo tampa',title:'ZooTampa: Prehistoric Predators',date:'2024',place:'Tampa, Florida',description:'Photos from our visit during ZooTampa’s 2024 Prehistoric Predators run.'},
+    {id:'dinosaur-world',folder:'images/dinosaur world plant city fl 04-27-2021',title:'Dinosaur World',date:'April 27, 2021',place:'Plant City, Florida',description:'A visit to Dinosaur World in Plant City, Florida.'},
+    {id:'dinos-alive',folder:'images/dinos alive 8-10-2020',title:'ZooTampa: Dinos Alive!',date:'August 10, 2020',place:'Tampa, Florida',description:'A very 2020 dinosaur outing, masks included, with life-size dinosaur displays throughout the event.'},
+    {id:'fallen-kingdom',folder:'images/jurassic world fallen kingdom',title:'Jurassic World: Fallen Kingdom',date:'July 10, 2018',place:'',description:'Photos from a Jurassic World: Fallen Kingdom outing in July 2018.'}
+  ];
+  const treeApi='https://api.github.com/repos/cybermatt99/matthews-paleo-hq/git/trees/main?recursive=1';
+  const rawBase='https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/';
+  const imageRe=/\.(jpe?g|png|webp|gif)$/i;
+  const rawUrl=path=>rawBase+path.split('/').map(encodeURIComponent).join('/');
+  const galleryRoot=document.getElementById('galleryRoot');
 
-  function buildPhotoFigure(album, file, index, total){
-    const figure = document.createElement('figure');
-    figure.className = 'gallery-photo' + (album.featureFirst && index === 0 ? ' featured' : '');
-    const img = document.createElement('img');
-    img.src = file.src;
-    img.alt = album.title + ' photo ' + (index + 1);
-    img.loading = index < 2 ? 'eager' : 'lazy';
-    img.decoding = 'async';
-    const label = document.createElement('figcaption');
-    label.className = 'gallery-photo-label';
-    label.textContent = album.title + ' · ' + (index + 1) + ' of ' + total;
-    figure.append(img,label);
-    figure.addEventListener('click', () => {
-      lightboxItems = album._files.map((f,i) => ({src:f.src, alt:album.title + ' photo ' + (i+1), caption:album.title + ' · ' + (i+1) + ' of ' + album._files.length}));
-      showLightbox(index);
-    });
-    return figure;
-  }
-
-  function renderHomeFeature(album){
-    const homePanels = [...document.querySelectorAll('#page-home article.panel')];
-    const photoPanel = homePanels.find(p => p.querySelector('h2')?.textContent.includes('Photos and Trips'));
-    if(!photoPanel || !album._files.length) return;
-    const body = photoPanel.querySelector('.panel-body');
-    body.innerHTML = '<div class="home-trip-feature"><img class="home-trip-photo" alt="Kualoa Ranch, Oahu" /><div><div class="home-trip-title">Kualoa Ranch, Oahu</div><div class="small">December 15, 2022 · Oahu, Hawaii</div><p class="small">A visit to Kualoa Ranch during our Hawaii wedding and honeymoon trip, including Jurassic filming locations and a very rainy day in the valley.</p><div class="linkish" data-goto="gallery">View the photo albums »</div></div></div>';
-    const img = body.querySelector('.home-trip-photo');
-    img.src = album._files[0].src;
-    img.addEventListener('click', () => {
-      lightboxItems = album._files.map((f,i) => ({src:f.src, alt:album.title + ' photo ' + (i+1), caption:album.title + ' · ' + (i+1) + ' of ' + album._files.length}));
-      showLightbox(0);
-    });
-    bindInternalLinks(body);
-  }
+  function albumFiles(tree,folder){const prefix=folder+'/';return tree.filter(i=>i.type==='blob'&&i.path.startsWith(prefix)&&imageRe.test(i.path)).map(i=>({path:i.path,src:rawUrl(i.path),name:i.path.slice(prefix.length)})).sort((a,b)=>a.path.localeCompare(b.path,undefined,{numeric:true}))}
+  let lightboxItems=[],lightboxIndex=0;
+  const lightbox=document.getElementById('photoLightbox'), lightboxImage=document.getElementById('lightboxImage'), lightboxCaption=document.getElementById('lightboxCaption');
+  function showLightbox(index){if(!lightboxItems.length)return;lightboxIndex=(index+lightboxItems.length)%lightboxItems.length;const item=lightboxItems[lightboxIndex];lightboxImage.src=item.src;lightboxImage.alt=item.alt;lightboxCaption.textContent=item.caption;lightbox.classList.add('open');lightbox.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+  function closeLightbox(){lightbox.classList.remove('open');lightbox.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+  document.getElementById('lightboxClose')?.addEventListener('click',closeLightbox);document.getElementById('lightboxPrev')?.addEventListener('click',()=>showLightbox(lightboxIndex-1));document.getElementById('lightboxNext')?.addEventListener('click',()=>showLightbox(lightboxIndex+1));lightbox?.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox()});
 
   function renderGallery(tree){
-    albums.forEach(album => album._files = albumFiles(tree, album.folder));
-    const galleryGrid = document.querySelector('#page-gallery .grid');
-    if(!galleryGrid) return;
-    galleryGrid.innerHTML = '';
-
-    const intro = document.createElement('article');
-    intro.className = 'panel span-12';
-    intro.innerHTML = '<h2>Photo Gallery</h2><div class="panel-body"><p class="gallery-intro">Trips, exhibits, fossil hunting, museums, and other dinosaur-related things worth keeping together.</p></div>';
-    galleryGrid.appendChild(intro);
-
-    const indexPanel = document.createElement('article');
-    indexPanel.className = 'panel span-12';
-    indexPanel.innerHTML = '<h2>Albums</h2><div class="panel-body"><div class="album-index"></div></div>';
-    const albumIndex = indexPanel.querySelector('.album-index');
-
-    albums.filter(a => a._files.length).forEach(album => {
-      const card = document.createElement('div');
-      card.className = 'album-card';
-      card.tabIndex = 0;
-      card.innerHTML = '<img class="album-card-cover" alt="' + album.title + '" /><div class="album-card-copy"><div class="album-card-title">' + album.title + '</div><div class="album-card-meta">' + album.date + (album.place ? ' · ' + album.place : '') + '</div><div class="album-card-count">' + album._files.length + ' photo' + (album._files.length === 1 ? '' : 's') + '</div></div>';
-      card.querySelector('img').src = album._files[0].src;
-      const jump = () => document.getElementById('album-' + album.id)?.scrollIntoView({behavior:'smooth',block:'start'});
-      card.addEventListener('click', jump);
-      card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); jump(); } });
-      albumIndex.appendChild(card);
-    });
-    galleryGrid.appendChild(indexPanel);
-
-    albums.filter(a => a._files.length).forEach(album => {
-      const section = document.createElement('article');
-      section.className = 'panel span-12 album-section' + (album._files.length > 8 ? ' collapsed' : '');
-      section.id = 'album-' + album.id;
-      section.innerHTML = '<h2>' + album.title + '</h2><div class="panel-body"><div class="album-head"><div class="album-copy"><div class="album-date">' + album.date + (album.place ? ' · ' + album.place : '') + '</div><div class="small">' + album.description + '</div></div><div class="album-meta">' + album._files.length + ' photo' + (album._files.length === 1 ? '' : 's') + '</div></div><div class="real-gallery-grid"></div></div>';
-      const grid = section.querySelector('.real-gallery-grid');
-      album._files.forEach((file,index) => grid.appendChild(buildPhotoFigure(album,file,index,album._files.length)));
-      if(album._files.length > 8){
-        const toggle = document.createElement('button');
-        toggle.className = 'album-toggle';
-        toggle.textContent = 'Show all ' + album._files.length + ' photos';
-        toggle.addEventListener('click', () => {
-          const collapsed = section.classList.toggle('collapsed');
-          toggle.textContent = collapsed ? 'Show all ' + album._files.length + ' photos' : 'Show fewer photos';
-        });
-        section.querySelector('.panel-body').appendChild(toggle);
-      }
-      galleryGrid.appendChild(section);
-    });
-
-    const kualoa = albums.find(a => a.id === 'kualoa');
-    if(kualoa) renderHomeFeature(kualoa);
+    if(!galleryRoot)return;
+    albums.forEach(a=>a.files=albumFiles(tree,a.folder));
+    galleryRoot.innerHTML='';
+    const indexModule=document.createElement('article');indexModule.className='module';indexModule.innerHTML='<div class="module-title"><span class="led green"></span>PHOTO ARCHIVE INDEX</div><div class="album-index"></div>';
+    const index=indexModule.querySelector('.album-index');
+    albums.filter(a=>a.files.length).forEach(a=>{const cover=a.files.find(f=>f.name===a.cover)||a.files[0];const card=document.createElement('button');card.className='album-card';card.innerHTML=`<img src="${cover.src}" alt="${a.title}"><div class="album-card-copy"><div class="album-card-title">${a.title}</div><div class="album-card-meta">${a.date}${a.place?' • '+a.place:''}</div><div class="album-card-count">${a.files.length} PHOTOS</div></div>`;card.addEventListener('click',()=>document.getElementById('album-'+a.id)?.scrollIntoView({behavior:'smooth'}));index.appendChild(card)});
+    galleryRoot.appendChild(indexModule);
+    albums.filter(a=>a.files.length).forEach(a=>{const section=document.createElement('article');section.className='module album-section'+(a.files.length>8?' collapsed':'');section.id='album-'+a.id;section.innerHTML=`<div class="module-title"><span class="led ${a.featured?'green':'amber'}"></span>${a.title}</div><div class="album-head"><div><div class="album-date">${a.date}${a.place?' • '+a.place:''}</div><div class="album-copy">${a.description}</div></div><div class="album-meta">${a.files.length} PHOTOS</div></div><div class="real-gallery-grid"></div>`;const grid=section.querySelector('.real-gallery-grid');a.files.forEach((f,i)=>{const fig=document.createElement('figure');fig.className='gallery-photo'+(a.featured&&i===0?' featured':'');fig.innerHTML=`<img loading="lazy" src="${f.src}" alt="${a.title} photo ${i+1}"><figcaption class="gallery-photo-label">${a.title} • ${i+1} of ${a.files.length}</figcaption>`;fig.addEventListener('click',()=>{lightboxItems=a.files.map((x,j)=>({src:x.src,alt:a.title+' photo '+(j+1),caption:a.title+' • '+(j+1)+' of '+a.files.length}));showLightbox(i)});grid.appendChild(fig)});if(a.files.length>8){const btn=document.createElement('button');btn.className='album-toggle';btn.textContent='SHOW ALL '+a.files.length+' PHOTOS';btn.addEventListener('click',()=>{const c=section.classList.toggle('collapsed');btn.textContent=c?'SHOW ALL '+a.files.length+' PHOTOS':'SHOW FEWER PHOTOS'});section.appendChild(btn)}galleryRoot.appendChild(section)});
   }
+  fetch(treeApi,{headers:{Accept:'application/vnd.github+json'}}).then(r=>{if(!r.ok)throw new Error('Photo index unavailable');return r.json()}).then(d=>renderGallery(Array.isArray(d.tree)?d.tree:[])).catch(()=>{if(galleryRoot)galleryRoot.innerHTML='<div class="module"><div class="module-title"><span class="led red"></span>PHOTO ARCHIVE</div><div class="gallery-loading">PHOTO INDEX TEMPORARILY UNAVAILABLE. REFRESH TO RETRY.</div></div>'});
 
-  const galleryGrid = document.querySelector('#page-gallery .grid');
-  if(galleryGrid) galleryGrid.innerHTML = '<article class="panel span-12"><h2>Photo Gallery</h2><div class="panel-body"><div class="gallery-loading">Loading photo albums…</div></div></article>';
-
-  fetch(treeApi, {headers:{'Accept':'application/vnd.github+json'}})
-    .then(r => {
-      if(!r.ok) throw new Error('GitHub gallery index unavailable');
-      return r.json();
-    })
-    .then(data => renderGallery(Array.isArray(data.tree) ? data.tree : []))
-    .catch(err => {
-      console.warn('Jurassic Matt gallery:', err);
-      if(galleryGrid) galleryGrid.innerHTML = '<article class="panel span-12"><h2>Photo Gallery</h2><div class="panel-body"><div class="gallery-error">The photo index could not be loaded right now. The images are stored in the site repository and should return after a refresh.</div></div></article>';
-    });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(modal?.classList.contains('open'))closeSpecies();if(lightbox?.classList.contains('open'))closeLightbox()}if(lightbox?.classList.contains('open')&&e.key==='ArrowLeft')showLightbox(lightboxIndex-1);if(lightbox?.classList.contains('open')&&e.key==='ArrowRight')showLightbox(lightboxIndex+1)});
 })();
