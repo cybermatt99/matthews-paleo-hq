@@ -1,0 +1,95 @@
+/* Dino-Dex Expanded Archive */
+.dex-upgrade-sidebar,.dex-upgrade-notes{align-self:start}
+.dex-upgrade-main{min-width:0}
+.dex-intro-strip{display:grid;grid-template-columns:repeat(3,minmax(110px,1fr)) minmax(200px,1.4fr);gap:7px;padding:9px;border-bottom:1px solid #514931;background:linear-gradient(#10180d,#091108);font-family:"Courier New",monospace}
+.dex-intro-strip>div{border:1px solid #485036;background:#0a1208;box-shadow:inset 0 0 9px #000;min-height:50px;padding:7px 9px;display:flex;flex-direction:column;justify-content:center}
+.dex-intro-strip b{font-size:21px;color:var(--phosphor);letter-spacing:2px;line-height:1;text-shadow:0 0 8px rgba(155,214,83,.25)}
+.dex-intro-strip span{font-size:8px;color:#a59669;letter-spacing:1px;margin-top:5px}
+.dex-source-status{flex-direction:row!important;align-items:center;gap:9px}
+.dex-source-status i{width:8px;height:8px;border-radius:50%;background:var(--phosphor);box-shadow:0 0 8px var(--phosphor);animation:ledPulse 4.7s steps(1) infinite}
+.dex-source-status span{margin:0;color:#9bc879}
+.dex-controls-expanded{display:grid;grid-template-columns:minmax(240px,1fr) 180px auto;gap:8px;padding:10px;border-bottom:1px solid #50462f;background:#15170f}
+.dex-search{margin:0}
+.dex-sort,.dex-study-status{min-height:39px;padding:0 10px;color:#d9c593;background:linear-gradient(#24271c,#10130d);border:1px solid #75633d;outline:1px solid #050605;font:700 10px/1 "Arial Narrow","Trebuchet MS",sans-serif;letter-spacing:.7px}
+.dex-random{white-space:nowrap}
+.dex-active-filter{padding:7px 11px;color:#85bf56;background:#0a1108;border-bottom:1px solid #3c402d;font:700 9px/1 "Courier New",monospace;letter-spacing:1.2px}
+.dex-category-stack{display:grid;gap:5px;padding:8px}
+.dex-category-stack button{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;min-height:32px;padding:6px 9px;text-align:left;color:#c9b885;background:linear-gradient(#202218,#11140e);border:1px solid #5e563c;box-shadow:inset 0 1px rgba(255,255,255,.025);font:700 9px/1 "Arial Narrow","Trebuchet MS",sans-serif;letter-spacing:.7px}
+.dex-category-stack button b{color:#7cae50;font:700 9px "Courier New",monospace}
+.dex-category-stack button:hover{filter:brightness(1.16);border-color:#9b7c42}
+.dex-category-stack button.active{color:#d9e7a8;border-color:#6b8c39;background:linear-gradient(90deg,#273f16,#152211 70%,#11160e);box-shadow:inset 3px 0 #95cf4a,0 0 8px rgba(103,160,62,.1)}
+.dex-category-stack button.active b{color:#b6e76b}
+.dex-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding:10px;background:radial-gradient(circle at 25% 0,rgba(65,93,48,.06),transparent 30%),#0a0d08}
+.dex-record-card{min-width:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid #5a5137;outline:1px solid #050604;background:#11140d;box-shadow:inset 0 0 12px rgba(0,0,0,.65),2px 2px #030403}
+.dex-record-card.favorite{border-color:#7f6335}
+.dex-card-image{position:relative;display:block;width:100%;height:180px;padding:0;overflow:hidden;border:0;border-bottom:1px solid #665a3a;background:radial-gradient(circle at center,#23351d,#091008 70%)}
+.dex-image-placeholder{position:absolute;inset:0;display:grid;place-items:center;color:#627947;font:900 58px "Arial Narrow","Trebuchet MS",sans-serif;letter-spacing:-4px;opacity:.42;text-shadow:2px 2px #000}
+.dex-wiki-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s ease,transform .25s ease;filter:saturate(.84) contrast(1.04) brightness(.91)}
+.dex-wiki-img.loaded{opacity:1}
+.dex-card-image:hover .dex-wiki-img.loaded{transform:scale(1.035);filter:saturate(.94) contrast(1.06) brightness(1)}
+.dex-card-image::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 55%,rgba(3,6,3,.82)),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px);mix-blend-mode:normal}
+.dex-favorite-flag{position:absolute;z-index:2;left:7px;top:7px;padding:4px 6px;color:#f1d193;background:#711c14;border:1px solid #b3482f;font:800 8px "Arial Narrow","Trebuchet MS",sans-serif;letter-spacing:1px}
+.dex-record-copy{padding:9px;display:flex;flex:1;flex-direction:column}
+.dex-record-category{color:#7ead54;font:700 8px "Courier New",monospace;letter-spacing:.8px;text-transform:uppercase}
+.dex-record-copy h3{margin:4px 0 7px;color:#dbc795;font:800 16px/1.05 "Arial Narrow","Trebuchet MS",sans-serif;text-transform:uppercase}
+.dex-quickfacts{display:grid;gap:3px;margin-bottom:7px}
+.dex-quickfacts span{padding:3px 5px;border-left:2px solid #4d6536;background:#0c1109;color:#9a987c;font:700 8px/1.25 "Courier New",monospace}
+.dex-record-copy p{margin:2px 0 9px;color:#c0b79d;font-size:11px;line-height:1.42}
+.dex-card-footer{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;margin-bottom:8px}
+.dex-card-footer span{padding:3px 5px;border:1px solid #514a33;font:700 7px "Courier New",monospace;letter-spacing:.5px}
+.dex-card-footer .gap{color:#c9a04c;border-color:#725f36;background:#1b170d}
+.dex-card-footer .complete{color:#8fbd63;border-color:#465f34;background:#0d160a}
+.dex-card-footer .has-notes{color:#a8d66d;border-color:#5b7b3c}
+.dex-open{width:100%;justify-content:space-between!important;font-size:8px!important;min-height:31px!important}
+.dex-load-row{display:flex;justify-content:center;padding:11px;border-top:1px solid #403923;background:#0b0e09}
+.dex-load-row button[hidden]{display:none}
+.dex-no-results{grid-column:1/-1;padding:45px 20px;text-align:center;color:#82916a;font:700 11px "Courier New",monospace}
+.dex-guide ol{padding-left:19px;margin:8px 0}
+.dex-guide li{margin:0 0 8px;color:#3c3325;font-size:11px;line-height:1.38}
+.dex-stats div{min-height:34px}
+.dex-principle{padding:11px;color:#9f9a78;background:#0b1209;font:700 8px/1.65 "Courier New",monospace;text-align:center}
+.dex-principle span{color:#c9923e;padding:0 3px}
+.dex-source-note{padding:0 9px 10px;color:#8f876e!important}
+.species-modal-card{width:min(1180px,94vw)!important;max-height:93vh!important;overflow:auto!important;background:#0a0d08!important}
+.dex-dossier-upgraded{padding:10px}
+.dex-dossier-hero{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(360px,1.1fr);gap:13px;border:1px solid #5f5538;background:#0d110b;padding:9px}
+.dex-dossier-image-wrap{position:relative;min-height:320px;overflow:hidden;background:radial-gradient(circle at center,#25351e,#070b06 72%);border:1px solid #62573a}
+.dex-dossier-fallback{position:absolute;inset:0;display:grid;place-items:center;color:#667b4a;opacity:.35;font:900 82px "Arial Narrow","Trebuchet MS",sans-serif}
+#dexModalImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+#dexModalImage.loaded{opacity:1}
+.dex-image-credit{position:absolute;z-index:3;left:0;right:0;bottom:0;padding:8px 9px;color:#b6af8e;background:rgba(3,5,3,.88);font:700 7px/1.45 "Courier New",monospace;letter-spacing:.3px}
+.dex-image-credit a{color:#d2af61}
+.dex-dossier-heading{padding:16px 14px 12px;align-self:center}
+.dex-dossier-heading h2{margin:5px 0 9px;color:#ead6a4;text-transform:uppercase;font:900 clamp(28px,4vw,52px)/.9 "Arial Narrow","Trebuchet MS",sans-serif}
+.dex-common-label{color:#9a8d68;font:700 8px "Courier New",monospace;margin-bottom:9px}
+.dex-dossier-heading p{font-size:14px;line-height:1.52;color:#cac0a5}
+.dex-dossier-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.dex-dossier-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.dex-dossier-field{min-height:61px;padding:8px;border:1px solid #504830;background:#0b1108;box-shadow:inset 0 0 8px #000}
+.dex-dossier-field span{display:block;color:#778c59;font:700 7px "Courier New",monospace;letter-spacing:1px}
+.dex-dossier-field b{display:block;margin-top:5px;color:#d3c294;font:700 10px/1.35 "Courier New",monospace}
+.dex-dossier-field.research-gap{border-color:#6d5630;background:#171208}
+.dex-dossier-field.research-gap b{color:#d49a3f}
+.dex-reading-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:9px}
+.dex-reading-grid article{padding:12px;border:1px solid #554b32;background:repeating-linear-gradient(0deg,rgba(255,255,255,.008) 0 1px,transparent 1px 5px),#10130d}
+.dex-reading-grid article.wide{grid-column:1/-1}
+.dex-reading-grid h3,.dex-reference-panel h3{margin:0 0 7px;color:#caa454;font:800 10px "Arial Narrow","Trebuchet MS",sans-serif;letter-spacing:.8px}
+.dex-reading-grid p,.dex-reading-grid li{color:#c4baa0;font-size:12px;line-height:1.52}
+.dex-reading-grid ul{margin:0;padding-left:19px}
+.research-gap-copy{color:#d39c45!important;font-style:italic}
+.dex-reference-panel{margin-top:9px;border:1px solid #4c5d38;background:#081107;box-shadow:inset 0 0 15px #000;padding:12px}
+.dex-reference-head{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #34432a;padding-bottom:7px;margin-bottom:9px}
+.dex-reference-head h3{margin:0;color:#a6cf69}
+#dexWikiState{color:#7bb14e;font:700 8px "Courier New",monospace;letter-spacing:.8px}
+.dex-wiki-extract{max-height:230px;overflow:auto;color:#bec5a7;font-size:12px;line-height:1.56;white-space:pre-line;padding-right:8px}
+.dex-reference-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.dex-personal-research{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px;padding:10px;border:1px solid #6b5735;background:#12130c}
+.dex-research-column label{display:block;margin-bottom:6px;color:#b79a5e;font:700 8px "Courier New",monospace;letter-spacing:.7px}
+.dex-research-column textarea{width:100%;min-height:170px;resize:vertical;padding:9px;color:#d8d0b4;background:#080d07;border:1px solid #4e5a37;outline:none;font:11px/1.5 "Courier New",monospace}
+.dex-research-column textarea:focus{border-color:#85ad4d;box-shadow:0 0 0 1px #243b1c}
+.dex-save-row{grid-column:1/-1;display:flex;align-items:center;gap:10px}
+#dexSaveState{color:#9bd653;font:700 9px "Courier New",monospace}
+.dex-upgrade-notes .notebook-panel{margin-bottom:0}
+@media(max-width:1180px){.dinodex-layout{grid-template-columns:220px minmax(0,1fr)!important}.dex-upgrade-notes{grid-column:1/-1;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px}.dex-upgrade-notes>.module-title{grid-column:1/-1}.dex-upgrade-notes .sub-title{display:none}.dex-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.dinodex-layout{display:block!important}.dex-upgrade-sidebar,.dex-upgrade-notes{margin-bottom:10px}.dex-category-stack{grid-template-columns:repeat(2,1fr)}.dex-intro-strip{grid-template-columns:repeat(2,1fr)}.dex-controls-expanded{grid-template-columns:1fr 1fr}.dex-search{grid-column:1/-1}.dex-dossier-hero{grid-template-columns:1fr}.dex-dossier-image-wrap{min-height:360px}}
+@media(max-width:620px){.dex-card-grid{grid-template-columns:1fr}.dex-card-image{height:220px}.dex-controls-expanded{grid-template-columns:1fr}.dex-search{grid-column:auto}.dex-intro-strip{grid-template-columns:1fr 1fr}.dex-source-status{grid-column:1/-1}.dex-category-stack{grid-template-columns:1fr}.dex-dossier-facts{grid-template-columns:1fr 1fr}.dex-reading-grid{grid-template-columns:1fr}.dex-reading-grid article.wide{grid-column:auto}.dex-personal-research{grid-template-columns:1fr}.dex-save-row{grid-column:auto}.dex-upgrade-notes{display:block}}
