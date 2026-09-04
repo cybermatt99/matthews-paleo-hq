@@ -3,426 +3,226 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jurassic Matt | Dinosaurs, Fossils & Amateur Paleontology</title>
-  <meta name="description" content="Jurassic Matt is Matthew's public paleontology portfolio, with study plans, certifications, fossil finds, field trips, dinosaur research, book reviews, photos, and resources." />
-  <meta name="theme-color" content="#5f140d" />
-  <meta property="og:title" content="Jurassic Matt" />
-  <meta property="og:description" content="Cybersecurity Professional • Amateur Paleontologist • Lifelong Dinosaur Nerd" />
+  <title>Jurassic Matt | Field Terminal</title>
+  <meta name="description" content="Jurassic Matt is Matthew's dinosaur, fossil, fieldwork, study, and photography archive." />
+  <meta name="theme-color" content="#161b12" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div class="shell">
-  <aside class="sidebar">
-    <div class="brand-medallion" aria-label="Jurassic Matt emblem">
-      <div class="skull">🦖</div>
-    </div>
-    <div class="brand-small">JURASSIC MATT // EST. 2026</div>
-
-    <nav class="nav" aria-label="Site navigation">
-      <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>Home</button>
-      <button class="nav-btn" data-page="studies"><span class="nav-icon">📖</span>My Studies</button>
-      <button class="nav-btn" data-page="credentials"><span class="nav-icon">🎓</span>Credentials</button>
-      <button class="nav-btn" data-page="field"><span class="nav-icon">⛏</span>Field Notes</button>
-      <button class="nav-btn" data-page="fossils"><span class="nav-icon">🦴</span>Fossil Finds</button>
-      <button class="nav-btn" data-page="dinosauria"><span class="nav-icon">🦶</span>Dinosaurs</button>
-      <button class="nav-btn" data-page="reading"><span class="nav-icon">📚</span>Book Reviews</button>
-      <button class="nav-btn" data-page="gallery"><span class="nav-icon">📷</span>Gallery</button>
-      <button class="nav-btn" data-page="resources"><span class="nav-icon">🔭</span>Resources</button>
-      <button class="nav-btn" data-page="about"><span class="nav-icon">👤</span>About</button>
-    </nav>
-
-    <div class="status-box">
-      <div class="status-title">CURRENT STATUS</div>
-      <div style="margin-top:7px"><span class="status-dot"></span>Studying and collecting</div>
-      <div class="small" style="margin-top:6px">Florida fossil permit: pending issuance</div>
+<div class="site-shell">
+  <header class="terminal-header">
+    <div class="brand-block">
+      <div class="brand-emblem" aria-hidden="true">🦖</div>
+      <div>
+        <div class="brand-title">Jurassic Matt</div>
+        <div class="brand-subtitle">Cybersecurity Professional • Amateur Paleontology Enthusiast • Lifelong Dinosaur Nerd</div>
+      </div>
+      <div class="header-leds" aria-hidden="true"><span></span><span></span><span></span></div>
     </div>
 
-    <div class="counter-box">
-      <div class="counter" id="visitCounter">0000001</div>
-      <div class="counter-note">Local Visits Since 09/01/26</div>
+    <div class="system-screen">
+      <div><span>TERMINAL ID:</span> JM-1993</div>
+      <div><span>USER:</span> JURASSIC_MATT</div>
+      <div><span>SYSTEM STATUS:</span> <b>ONLINE</b></div>
+      <div class="system-clock" id="systemClock">--/--/---- --:--</div>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">SFX: ON</button>
     </div>
-  </aside>
+  </header>
 
-  <main class="main">
-    <header class="hero">
-      <div class="sun"></div>
-      <div class="jungle"></div>
-      <div class="pterosaurs">⌁ ⌁</div>
-      <div class="hero-title">Jurassic Matt</div>
-      <div class="hero-subtitle">Cybersecurity Professional • Amateur Paleontologist • Lifelong Dinosaur Nerd</div>
-      <div class="raptor" aria-hidden="true">🦖</div>
-    </header>
+  <nav class="main-nav" aria-label="Site navigation">
+    <button class="nav-btn active" data-page="home"><span class="nav-glyph">⌂</span>HOME</button>
+    <button class="nav-btn" data-page="archive"><span class="nav-glyph">▰</span>FIELD ARCHIVE</button>
+    <button class="nav-btn" data-page="expeditions"><span class="nav-glyph">⌁</span>EXPEDITIONS</button>
+    <button class="nav-btn" data-page="dinodex"><span class="nav-glyph">◆</span>DINO-DEX</button>
+    <button class="nav-btn" data-page="study"><span class="nav-glyph">▤</span>STUDY LOG</button>
+    <button class="nav-btn" data-page="collection"><span class="nav-glyph">▣</span>COLLECTION</button>
+    <button class="nav-btn" data-page="photos"><span class="nav-glyph">◉</span>PHOTOS</button>
+    <button class="nav-btn" data-page="about"><span class="nav-glyph">●</span>ABOUT</button>
+  </nav>
 
-    <div class="content">
-      <div class="top-note">
-        <div><strong>WELCOME.</strong> I work in cybersecurity and spend a lot of my free time learning about dinosaurs, fossils, evolution, and deep time. This site is where I keep track of what I am studying, finding, reading, and working toward.</div>
-        <div class="blink">● ONLINE</div>
+  <main>
+    <section class="page active" id="page-home">
+      <div class="home-hero">
+        <div class="hero-copy">
+          <h1>EXPLORING.<br>LEARNING.<br>PRESERVING.</h1>
+          <p>Field notes, fossil finds, dinosaur trips, and study logs collected in one place.</p>
+          <button class="terminal-button" data-goto="archive">BEGIN EXPLORING <span>▶</span></button>
+        </div>
+        <div class="hero-readout">
+          <div>LOCATION: KUALOA VALLEY, O'AHU</div>
+          <div>WEATHER: MISTY</div>
+          <div>ARCHIVE LINK: <b>ONLINE</b></div>
+        </div>
       </div>
 
-      <section class="page active" id="page-home">
-        <div class="grid">
-          <article class="panel span-8">
-            <h2>About the Site</h2>
-            <div class="panel-body">
-              <p>I have loved dinosaurs for as long as I can remember. In 2026 I decided to take that interest more seriously and start building real knowledge and field experience in paleontology.</p>
-              <p>This site is a public record of that process. I use it to document courses, certificates, field trips, fossil finds, books, research notes, museum visits, photos, and anything else connected to prehistoric life that I think is worth keeping.</p>
-              <p class="small" style="margin-bottom:0">Cybersecurity footnote: Nedry probably would have had a harder time if I were on the park's security team.</p>
-            </div>
-          </article>
+      <div class="dashboard-grid home-grid">
+        <article class="module featured-expedition">
+          <div class="module-title"><span class="led green"></span>FEATURED EXPEDITION</div>
+          <img src="https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/images/kualoa%20ranch%2012-15-2022/491757965_9718244574919719_3042173133725601820_n.jpg" alt="Matthew at Kualoa Ranch in Oahu" />
+          <h2>KUALOA RANCH, OAHU</h2>
+          <div class="terminal-meta">DEC 15, 2022</div>
+          <p>A rainy visit through the valley and Jurassic filming locations during our Hawaii wedding and honeymoon trip.</p>
+          <button class="terminal-button small-button" data-goto="expeditions">VIEW EXPEDITION LOG <span>▶</span></button>
+        </article>
 
-          <article class="panel span-4">
-            <h2>Current Milestones</h2>
-            <div class="panel-body">
-              <ul class="progress-list">
-                <li><div class="progress-icon done">✓</div><div><div class="done"><strong>Florida Fossil Permit</strong></div><div class="small">Application and payment submitted September 1, 2026</div></div></li>
-                <li><div class="progress-icon done">✓</div><div><div class="done"><strong>Tampa Bay Fossil Club</strong></div><div class="small">Membership application submitted</div></div></li>
-                <li><div class="progress-icon pending">•</div><div><div><strong>First Florida Field Trip</strong></div><div class="small">Planning stage</div></div></li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>What I'm Studying</h2>
-            <div class="panel-body">
-              <div class="course"><div class="course-title">Introductory Geology</div><div class="small">OpenLearn / Open University</div></div>
-              <div class="course"><div class="course-title">Dino 101: Dinosaur Paleobiology</div><div class="small">University of Alberta</div></div>
-              <div class="course"><div class="course-title">Evolution and Biology Foundations</div><div class="small">Planned supporting coursework</div></div>
-              <div class="linkish" data-goto="studies">See my study plan »</div>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>Field Plans</h2>
-            <div class="panel-body">
-              <div class="timeline">
-                <div class="timeline-item"><strong>Florida fossil collecting</strong><div class="small">Local club trips and legal collecting once my permit is active</div></div>
-                <div class="timeline-item"><strong>Peace River</strong><div class="small">One of my first planned Florida field experiences</div></div>
-                <div class="timeline-item"><strong>Hell Creek Formation</strong><div class="small">Long-term field trip goal after I build more experience</div></div>
-              </div>
-              <div class="linkish" data-goto="field" style="margin-top:12px">Field notes »</div>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>Currently Reading</h2>
-            <div class="panel-body">
-              <div class="book-card">
-                <div class="book-cover">THE RISE AND FALL<br>OF THE<br>DINOSAURS<br><br>STEVE BRUSATTE</div>
-                <div>
-                  <div style="color:var(--gold);font-size:20px;font-weight:bold">The Rise and Fall of the Dinosaurs</div>
-                  <div class="small">Steve Brusatte</div>
-                  <div class="small" style="margin-top:10px">Part of my introductory paleontology reading list.</div>
-                  <div class="linkish" data-goto="reading" style="margin-top:10px">Reading list and reviews »</div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Featured Dinosaur</h2>
-            <div class="panel-body">
-              <div class="dino-card">
-                <div class="dino-thumb">🦖</div>
-                <div>
-                  <div style="color:var(--gold);font-size:23px;font-weight:bold;font-style:italic">Velociraptor mongoliensis</div>
-                  <div style="margin-top:8px">Clade: Dromaeosauridae</div>
-                  <div>Period: Late Cretaceous</div>
-                  <div>Location: Mongolia</div>
-                  <div>Length: about 2 m</div>
-                  <p class="small">One of my favorite dinosaurs and the first species I plan to build into a detailed research page.</p>
-                  <div class="linkish" data-goto="dinosauria">Research notes »</div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Photos and Trips</h2>
-            <div class="panel-body">
-              <div class="photo-grid">
-                <div><div class="photo-thumb">🌴</div><div class="photo-cap">Hawaii</div></div>
-                <div><div class="photo-thumb">🦴</div><div class="photo-cap">Fossils</div></div>
-                <div><div class="photo-thumb">🏛️</div><div class="photo-cap">Museums</div></div>
-              </div>
-              <p class="small">Coming soon: photos from our Hawaii wedding and honeymoon trip, including the Jurassic Park filming locations and our Sattler and Muldoon costumes.</p>
-              <div class="linkish" data-goto="gallery">Open gallery »</div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-studies">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>My Study Plan</h2>
-            <div class="panel-body">
-              <p>I am approaching paleontology as a serious avocational study. My plan is to build a foundation in geology, biology, evolution, fossil identification, and dinosaur paleobiology, then reinforce it with field experience and independent research.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Foundations</h2>
-            <div class="panel-body">
-              <div class="course"><div class="course-title">An Introduction to Geology <span class="badge">PLANNED</span></div><div class="small">Open University / OpenLearn</div></div>
-              <div class="course"><div class="course-title">Evolution Through Natural Selection <span class="badge">PLANNED</span></div><div class="small">Open University / OpenLearn</div></div>
-              <div class="course"><div class="course-title">BIO101: Introduction to Biology <span class="badge">PLANNED</span></div><div class="small">Saylor Academy</div></div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Paleontology Courses</h2>
-            <div class="panel-body">
-              <div class="course"><div class="course-title">Dino 101: Dinosaur Paleobiology <span class="badge">PRIORITY</span></div><div class="small">University of Alberta</div></div>
-              <div class="course"><div class="course-title">Theropod Dinosaurs and the Origin of Birds <span class="badge">PLANNED</span></div><div class="small">University of Alberta</div></div>
-              <div class="course"><div class="course-title">Early Vertebrate Evolution <span class="badge">PLANNED</span></div><div class="small">University of Alberta</div></div>
-              <div class="course"><div class="course-title">Ancient Marine Reptiles <span class="badge">PLANNED</span></div><div class="small">University of Alberta</div></div>
-            </div>
-          </article>
-
-          <article class="panel span-12">
-            <h2>Later Coursework</h2>
-            <div class="panel-body">
-              <p>If the interest sticks long term, I would like to add local college coursework in physical geology, historical geology, paleontology, evolutionary biology, comparative vertebrate anatomy, sedimentology, stratigraphy, and GIS.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-credentials">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Credentials and Memberships</h2>
-            <div class="panel-body">
-              <p>This page tracks permits, memberships, course certificates, and other formal milestones as I complete them. I only list credentials that I have actually earned or applications that are clearly marked as pending.</p>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>Florida Fossil Permit</h2>
-            <div class="panel-body">
-              <div class="pending"><strong>Pending issuance</strong></div>
-              <p class="small">Application and payment submitted September 1, 2026.</p>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>Tampa Bay Fossil Club</h2>
-            <div class="panel-body">
-              <div class="pending"><strong>Application submitted</strong></div>
-              <p class="small">Local club membership application submitted September 1, 2026.</p>
-            </div>
-          </article>
-
-          <article class="panel span-4">
-            <h2>Course Certificates</h2>
-            <div class="panel-body">
-              <p class="small">Nothing to display yet. Certificates will be added here as courses are completed.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-field">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Field Notes</h2>
-            <div class="panel-body">
-              <p>This section will document fossil hunts and paleontology trips with dates, general locations, geology, methods, photos, finds, identifications, and what I learned.</p>
-              <div class="notice"><strong>Locality privacy:</strong> precise coordinates for productive or sensitive fossil sites will not be posted publicly.</div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Florida</h2>
-            <div class="panel-body">
-              <p><strong>Next goal:</strong> join a Tampa Bay Fossil Club field trip once membership and permit details are settled.</p>
-              <p class="small">Likely early targets include Peace River and other legal Florida collecting opportunities.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Hell Creek Formation</h2>
-            <div class="panel-body">
-              <p><strong>Long-term goal:</strong> participate in a legitimate Hell Creek field expedition after I have built a stronger base of geology knowledge and local collecting experience.</p>
-              <p class="small">I want the trip to be something I can understand and appreciate properly, not just a one-off tourist stop.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-fossils">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Fossil Finds and Collection</h2>
-            <div class="panel-body">
-              <p>I plan to keep a documented collection with specimen IDs, photographs, identification notes, age, general locality, collection date, provenance, and confidence level.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Field-Collected Specimens</h2>
-            <div class="panel-body">
-              <div class="specimen">
-                <div class="id">MAT-FL-2026-001</div>
-                <h3>Reserved for my first documented Florida find</h3>
-                <div class="small">Taxon: TBD</div>
-                <div class="small">Element: TBD</div>
-                <div class="small">Status: awaiting first field collection</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Acquired Specimens</h2>
-            <div class="panel-body">
-              <p class="small">Commercially acquired fossils will be kept separate from fossils I collect personally, with source and provenance recorded whenever possible.</p>
-              <p class="small">No specimens cataloged yet.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-dinosauria">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Dinosaur Research Notes</h2>
-            <div class="panel-body">
-              <p>I am building species-by-species notes that may eventually feed into a larger illustrated dinosaur book. My main rule is to separate direct fossil evidence from strong inference, reasonable reconstruction, and speculation.</p>
-            </div>
-          </article>
-
-          <article class="panel span-12">
-            <h2>Species Queue</h2>
-            <div class="panel-body">
-              <div class="dossier-grid">
-                <div class="dossier"><div class="id">001</div><h3><i>Velociraptor mongoliensis</i></h3><p class="small">Feathers, quill knobs, skull anatomy, sickle claw, Djadochta environment, phylogeny, and popular depictions.</p></div>
-                <div class="dossier"><div class="id">002</div><h3><i>Tyrannosaurus rex</i></h3><p class="small">Growth, bite mechanics, Hell Creek ecology, integument, and historical reconstructions.</p></div>
-                <div class="dossier"><div class="id">003</div><h3><i>Spinosaurus aegyptiacus</i></h3><p class="small">Changing reconstructions, aquatic adaptations, tail anatomy, ecology, and ongoing debates.</p></div>
-                <div class="dossier"><div class="id">004</div><h3><i>Triceratops horridus</i></h3><p class="small">Cranial anatomy, horns and frill, growth, and Hell Creek ecology.</p></div>
-                <div class="dossier"><div class="id">005</div><h3><i>Deinonychus antirrhopus</i></h3><p class="small">Dromaeosaur anatomy, the dinosaur renaissance, and its influence on modern dinosaur culture.</p></div>
-                <div class="dossier"><div class="id">METHOD</div><h3>Evidence Labels</h3><p class="small">Known • Strongly inferred • Plausible • Speculative</p></div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-reading">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Books and Reviews</h2>
-            <div class="panel-body">
-              <p>I want to keep short notes on the paleontology, geology, evolution, and natural history books I read. Reviews will focus on what I learned, what I liked, and who I think would enjoy the book.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Starting List</h2>
-            <div class="panel-body">
-              <div class="timeline">
-                <div class="timeline-item"><strong>The Rise and Fall of the Dinosaurs</strong> by Steve Brusatte</div>
-                <div class="timeline-item"><strong>Your Inner Fish</strong> by Neil Shubin</div>
-                <div class="timeline-item"><strong>A Short History of Nearly Everything</strong> by Bill Bryson</div>
-                <div class="timeline-item"><strong>Evolution: What the Fossils Say and Why It Matters</strong> by Donald R. Prothero</div>
-                <div class="timeline-item"><strong>Wonderful Life</strong> by Stephen Jay Gould</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Review Format</h2>
-            <div class="panel-body">
-              <p class="small"><strong>Finished:</strong> date</p>
-              <p class="small"><strong>Rating:</strong> personal score</p>
-              <p class="small"><strong>Main ideas:</strong> concepts worth remembering</p>
-              <p class="small"><strong>Notes:</strong> useful material for future research or writing</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-gallery">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Photo Gallery</h2>
-            <div class="panel-body">
-              <p>Museums, fossil trips, travel, books, collectibles, fieldwork, and whatever else belongs in the dinosaur file cabinet.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Hawaii: Jurassic Filming Locations</h2>
-            <div class="panel-body">
-              <div class="photo-grid">
-                <div><div class="photo-thumb">🌴</div><div class="photo-cap">Kualoa area</div></div>
-                <div><div class="photo-thumb">🚙</div><div class="photo-cap">Jeep tour</div></div>
-                <div><div class="photo-thumb">📷</div><div class="photo-cap">Costumes</div></div>
-              </div>
-              <p class="small">Wedding and honeymoon trip. We visited Jurassic Park filming locations dressed as Ellie Sattler and Robert Muldoon, and it rained while I was driving the Jeep around the site. Photos coming soon.</p>
-            </div>
-          </article>
-
-          <article class="panel span-6">
-            <h2>Future Albums</h2>
-            <div class="panel-body">
-              <div class="timeline">
-                <div class="timeline-item">Florida fossil hunts</div>
-                <div class="timeline-item">Museum visits</div>
-                <div class="timeline-item">Fossil collection</div>
-                <div class="timeline-item">Hell Creek trip</div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-resources">
-        <div class="grid">
-          <article class="panel span-12">
-            <h2>Resources</h2>
-            <div class="panel-body">
-              <div class="resource-grid">
-                <div class="resource"><h3>Earth@Home</h3><p class="small">Earth science, regional geology, fossils, maps, and virtual fieldwork.</p><a href="https://earthathome.org/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Digital Atlas of Ancient Life</h3><p class="small">Fossil identification, 3D specimens, and paleontology learning resources.</p><a href="https://www.digitalatlasofancientlife.org/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Paleontological Society</h3><p class="small">Professional and avocational paleontology organization.</p><a href="https://www.paleosoc.org/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Society of Vertebrate Paleontology</h3><p class="small">Professional organization focused on vertebrate paleontology.</p><a href="https://vertpaleo.org/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Tampa Bay Fossil Club</h3><p class="small">Local meetings, field trips, speakers, and collectors.</p><a href="https://tampabayfossilclub.com/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Florida Fossil Permit</h3><p class="small">Florida Museum vertebrate fossil collecting permit program.</p><a href="https://www.floridamuseum.ufl.edu/florida-fossil-permit/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Understanding Evolution</h3><p class="small">University of California, Berkeley evolution education resource.</p><a href="https://evolution.berkeley.edu/" target="_blank" rel="noreferrer">Visit »</a></div>
-                <div class="resource"><h3>Hell Creek Fossils</h3><p class="small">A future field trip option for Hell Creek prospecting and excavation experience.</p><a href="https://www.hcfossils.com/" target="_blank" rel="noreferrer">Visit »</a></div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="page" id="page-about">
-        <div class="panel">
-          <h2>About Me</h2>
-          <div class="panel-body about-box">
-            <p>I'm Matthew, a cybersecurity professional in Florida and a lifelong dinosaur fan. I have always been interested in paleontology, evolution, natural history, and the enormous timescales behind life on Earth.</p>
-            <p>In 2026 I decided to stop treating paleontology as something I only read about occasionally and start studying it more deliberately. That means coursework, books, local fossil collecting, museum visits, field trips, research notes, and eventually more ambitious experiences such as Hell Creek.</p>
-            <p>This site is not meant to present me as a professional paleontologist. It is a record of an amateur learning the subject seriously and enjoying the process.</p>
-            <p><strong>Research standard:</strong> when I write about prehistoric animals, I try to distinguish what fossils directly show from what researchers infer and what remains uncertain.</p>
-            <p class="small">Independent personal site. Not affiliated with any film studio, franchise, museum, university, fossil organization, or government agency.</p>
+        <article class="module favorite-module">
+          <div class="module-title"><span class="led amber"></span>FAVORITE SPECIES</div>
+          <div class="favorite-list">
+            <button data-species="Spinosaurus aegyptiacus"><span class="species-badge red">SP</span><b>SPINOSAURUS AEGYPTIACUS</b></button>
+            <button data-species="Tyrannosaurus rex"><span class="species-badge gold">TR</span><b>TYRANNOSAURUS REX</b></button>
+            <button data-species="Velociraptor"><span class="species-badge green">VR</span><b>VELOCIRAPTOR</b></button>
+            <button data-species="Brachiosaurus"><span class="species-badge blue">BR</span><b>BRACHIOSAURUS</b></button>
+            <button data-species="Triceratops"><span class="species-badge ochre">TC</span><b>TRICERATOPS</b></button>
           </div>
-        </div>
-      </section>
-    </div>
+          <button class="terminal-button small-button" data-goto="dinodex">VIEW FULL SPECIES INDEX <span>▶</span></button>
+        </article>
 
-    <footer class="footer">
-      <div class="thanks">Jurassic Matt</div>
-      <div class="footer-links">
-        <span data-goto="home">Home</span> |
-        <span data-goto="studies">Studies</span> |
-        <span data-goto="fossils">Fossils</span> |
-        <span data-goto="resources">Links</span> |
-        <span data-goto="about">About</span>
+        <article class="module update-module">
+          <div class="module-title"><span class="led green"></span>RECENT UPDATES</div>
+          <div class="update-line"><span>SEP 2026</span><div><b>Tampa Bay Fossil Club</b><br>Membership confirmed. Newsletter received.</div></div>
+          <div class="update-line"><span>SEP 2026</span><div><b>Florida Fossil Permit</b><br>Application and payment submitted. PDF pending.</div></div>
+          <div class="update-line"><span>SEP 12</span><div><b>Peace River</b><br>First club field trip under consideration.</div></div>
+          <div class="update-line"><span>2026</span><div><b>Study Roadmap</b><br>Geology, evolution, Dino 101, field skills, and independent research.</div></div>
+          <button class="terminal-button small-button" data-goto="archive">VIEW FIELD ARCHIVE <span>▶</span></button>
+        </article>
+
+        <article class="module status-module">
+          <div class="module-title"><span class="led red"></span>PERMIT / CLUB STATUS</div>
+          <div class="paper-panel">
+            <div class="permit-mark">FOSSIL<br>COLLECTOR</div>
+            <div><b>FLORIDA VERTEBRATE FOSSIL PERMIT</b><br><span class="pending-text">PENDING ISSUANCE</span><br><small>Application submitted September 1, 2026</small></div>
+            <hr>
+            <div><b>TAMPA BAY FOSSIL CLUB</b><br><span class="active-text">ACTIVE MEMBER</span><br><small>Joined September 2026</small></div>
+          </div>
+          <button class="terminal-button small-button" data-goto="archive">VIEW PERMITS & MEMBERSHIPS <span>▶</span></button>
+        </article>
       </div>
-      <div>© 2026 Matthew</div>
-      <div class="small">Best viewed on a desktop, naturally.</div>
-    </footer>
+
+      <article class="dex-preview module">
+        <div class="module-title"><span class="led green"></span>DINO-DEX PREVIEW</div>
+        <div class="dex-strip">
+          <div class="dex-count"><strong>026</strong><span>SPECIES SEEDED</span></div>
+          <button data-species="Allosaurus"><span>AL</span>Allosaurus</button>
+          <button data-species="Stegosaurus"><span>ST</span>Stegosaurus</button>
+          <button data-species="Mosasaurus"><span>MO</span>Mosasaurus</button>
+          <button data-species="Giganotosaurus"><span>GI</span>Giganotosaurus</button>
+          <button data-species="Carnotaurus"><span>CA</span>Carnotaurus</button>
+          <button data-goto="dinodex" class="more-dex">MORE ENTRIES ▶</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="page" id="page-archive">
+      <div class="page-banner"><div><span>FIELD TERMINAL</span><h1>FIELD ARCHIVE</h1><p>Permits, memberships, field plans, milestones, and active research.</p></div></div>
+      <div class="dashboard-grid archive-grid">
+        <article class="module"><div class="module-title"><span class="led amber"></span>CURRENT ROADMAP</div><div class="roadmap-list"><div><span>01</span><b>Florida Fossil Permit</b><small>Pending issuance</small></div><div><span>02</span><b>Tampa Bay Fossil Club</b><small>Active member</small></div><div><span>03</span><b>Intro Geology</b><small>Planned</small></div><div><span>04</span><b>Dino 101</b><small>Priority</small></div><div><span>05</span><b>Florida Field Experience</b><small>Next phase</small></div><div><span>06</span><b>Hell Creek Expedition</b><small>Long-term goal</small></div></div></article>
+        <article class="module"><div class="module-title"><span class="led green"></span>MEMBERSHIPS & CREDENTIALS</div><div class="paper-panel tall-paper"><h3>Tampa Bay Fossil Club</h3><p><b class="active-text">ACTIVE MEMBER</b><br>Joined September 2026. Welcome email and September newsletter received.</p><h3>Florida Fossil Permit</h3><p><b class="pending-text">PENDING ISSUANCE</b><br>Application and payment submitted September 1, 2026.</p><h3>Course Certificates</h3><p>No course certificates posted yet.</p></div></article>
+        <article class="module wide"><div class="module-title"><span class="led red"></span>FIELD PLANS</div><div class="field-plan-grid"><div><b>PEACE RIVER</b><p>September 12, 2026 trip under consideration. First club fossil-hunting field day if permit and river conditions cooperate.</p></div><div><b>FLORIDA COLLECTING</b><p>Build experience with screening, identification, locality notes, field documentation, and legal collecting procedures.</p></div><div><b>HELL CREEK</b><p>Long-term goal after building a stronger geology foundation and several seasons of local experience.</p></div></div></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-expeditions">
+      <div class="page-banner"><div><span>TRAVEL & FIELD RECORDS</span><h1>EXPEDITIONS</h1><p>Dinosaur trips, fossil outings, museums, fieldwork, and places worth remembering.</p></div></div>
+      <div class="expedition-feature module">
+        <div class="module-title"><span class="led green"></span>KUALOA RANCH • OAHU • DECEMBER 15, 2022</div>
+        <div class="expedition-feature-grid">
+          <img src="https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/images/kualoa%20ranch%2012-15-2022/491420852_9718244551586388_1127477591582424271_n%20%281%29.jpg" alt="Matthew and Arielle in the misty Kualoa valley" />
+          <div><h2>KUALOA RANCH</h2><p>Arielle and I visited Kualoa Ranch during our Hawaii wedding and honeymoon trip. We toured Jurassic filming locations, saw several dinosaur-themed stops and set pieces, and got a very rainy day in the valley.</p><button class="terminal-button" data-goto="photos">OPEN PHOTO ARCHIVE <span>▶</span></button></div>
+        </div>
+      </div>
+      <div class="module"><div class="module-title"><span class="led amber"></span>EXPEDITION INDEX</div><div class="expedition-index" id="expeditionIndex"><div>Dinos Alive! • ZooTampa • Aug 10, 2020</div><div>Dinosaur World • Plant City • Apr 27, 2021</div><div>Kualoa Ranch • Oahu • Dec 15, 2022</div><div>Prehistoric Predators • ZooTampa • 2024</div><div>Jurassic Quest • Jul 21, 2024</div><div>Dinos Unearthed • Feb 27, 2025</div></div></div>
+    </section>
+
+    <section class="page" id="page-dinodex">
+      <div class="page-banner"><div><span>SPECIES DATABASE</span><h1>DINO-DEX</h1><p>A personal research index for dinosaurs and other prehistoric animals.</p></div></div>
+      <div class="dinodex-layout">
+        <aside class="module dex-sidebar">
+          <div class="module-title"><span class="led green"></span>FEATURED SPECIES</div>
+          <div class="favorite-list compact">
+            <button data-species="Spinosaurus aegyptiacus"><span class="species-badge red">SP</span>Spinosaurus aegyptiacus</button>
+            <button data-species="Tyrannosaurus rex"><span class="species-badge gold">TR</span>Tyrannosaurus rex</button>
+            <button data-species="Velociraptor"><span class="species-badge green">VR</span>Velociraptor</button>
+            <button data-species="Brachiosaurus"><span class="species-badge blue">BR</span>Brachiosaurus</button>
+            <button data-species="Triceratops"><span class="species-badge ochre">TC</span>Triceratops</button>
+          </div>
+          <div class="module-title sub-title">CURATOR NOTES</div>
+          <img class="curator-photo" src="https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/images/kualoa%20ranch%2012-15-2022/491757965_9718244574919719_3042173133725601820_n.jpg" alt="Matthew at Kualoa Ranch" />
+          <p class="curator-copy">This archive is where I keep species profiles, questions, notes, reconstructions, and things I want to learn more about.</p>
+        </aside>
+
+        <section class="module dex-main">
+          <div class="module-title"><span class="led amber"></span>SPECIES INDEX</div>
+          <div class="dex-controls">
+            <label class="search-box"><input id="speciesSearch" type="search" placeholder="Search species..." aria-label="Search species"><span>⌕</span></label>
+            <div class="filter-row" id="speciesFilters"><button class="filter active" data-filter="all">ALL</button><button class="filter" data-filter="favorite">FAVORITES</button><button class="filter" data-filter="dinosaur">DINOSAURS</button><button class="filter" data-filter="marine">MARINE</button><button class="filter" data-filter="other">OTHER</button></div>
+          </div>
+          <div class="featured-species-grid" id="featuredSpeciesGrid"></div>
+          <div class="module-title sub-title">ADDITIONAL SPECIES ARCHIVE</div>
+          <div class="species-list-grid" id="speciesListGrid"></div>
+        </section>
+
+        <aside class="module notes-sidebar">
+          <div class="module-title"><span class="led green"></span>STUDY NOTES</div>
+          <div class="notebook-panel"><h3>Latest Observations</h3><ul><li>Spinosaurus anatomy and ecology</li><li>Dromaeosaur feathering and behavior</li><li>Theropod reconstruction accuracy</li><li>Florida fossil identification</li><li>Hell Creek field preparation</li></ul></div>
+          <div class="module-title sub-title">ARCHIVE STATS</div>
+          <div class="archive-stats"><div><span>26</span>Total seeded species</div><div><span>05</span>Top favorites</div><div><span id="savedNotesCount">00</span>Species with saved notes</div></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" id="page-study">
+      <div class="page-banner"><div><span>COURSEWORK & READING</span><h1>STUDY LOG</h1><p>Learning geology, evolution, paleobiology, fossil identification, and deep time.</p></div></div>
+      <div class="dashboard-grid study-grid">
+        <article class="module"><div class="module-title"><span class="led green"></span>FOUNDATIONS</div><div class="terminal-list"><div><b>An Introduction to Geology</b><span>OpenLearn • Planned</span></div><div><b>Evolution Through Natural Selection</b><span>OpenLearn • Planned</span></div><div><b>BIO101</b><span>Saylor Academy • Planned</span></div></div></article>
+        <article class="module"><div class="module-title"><span class="led amber"></span>PALEONTOLOGY</div><div class="terminal-list"><div><b>Dino 101: Dinosaur Paleobiology</b><span>University of Alberta • Priority</span></div><div><b>Theropods & Origin of Birds</b><span>University of Alberta • Planned</span></div><div><b>Early Vertebrate Evolution</b><span>Planned</span></div><div><b>Ancient Marine Reptiles</b><span>Planned</span></div></div></article>
+        <article class="module wide"><div class="module-title"><span class="led red"></span>READING QUEUE</div><div class="book-log"><div><b>The Rise and Fall of the Dinosaurs</b><span>Steve Brusatte</span><p>Introductory paleontology reading.</p></div><div><b>Your Inner Fish</b><span>Neil Shubin</span><p>Evolution and vertebrate anatomy.</p></div><div><b>Evolution: What the Fossils Say and Why It Matters</b><span>Donald Prothero</span><p>Evidence and evolutionary interpretation.</p></div></div></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-collection">
+      <div class="page-banner"><div><span>SPECIMEN DATABASE</span><h1>COLLECTION</h1><p>Field-collected fossils, acquired specimens, provenance, and future display pieces.</p></div></div>
+      <div class="dashboard-grid collection-grid">
+        <article class="module"><div class="module-title"><span class="led green"></span>FIELD-COLLECTED</div><div class="empty-specimen"><div class="specimen-code">MAT-FL-2026-001</div><h3>Reserved</h3><p>Reserved for the first documented Florida fossil collected personally after permit issuance.</p></div></article>
+        <article class="module"><div class="module-title"><span class="led amber"></span>ACQUIRED SPECIMENS</div><div class="empty-specimen"><div class="specimen-code">MAT-COM-2026-001</div><h3>Open slot</h3><p>No acquired specimen cataloged yet. A large Spinosaurus tooth is on the long-term display-piece wishlist.</p></div></article>
+        <article class="module wide"><div class="module-title"><span class="led red"></span>CATALOG STANDARD</div><div class="catalog-grid"><span>SPECIMEN ID</span><span>IDENTIFICATION</span><span>AGE / FORMATION</span><span>GENERAL LOCALITY</span><span>PROVENANCE</span><span>RESTORATION</span><span>PHOTOS / 3D</span><span>CONFIDENCE</span></div></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-photos">
+      <div class="page-banner"><div><span>VISUAL ARCHIVE</span><h1>PHOTOS</h1><p>Trips, exhibits, museums, dinosaur events, and future fieldwork.</p></div></div>
+      <div id="galleryRoot" class="gallery-root"><div class="module"><div class="module-title"><span class="led green"></span>PHOTO ARCHIVE</div><div class="gallery-loading">INDEXING IMAGE ARCHIVE...</div></div></div>
+    </section>
+
+    <section class="page" id="page-about">
+      <div class="page-banner"><div><span>CURATOR PROFILE</span><h1>ABOUT</h1><p>The person behind the terminal.</p></div></div>
+      <div class="about-layout">
+        <article class="module about-photo"><img src="https://raw.githubusercontent.com/cybermatt99/matthews-paleo-hq/main/images/kualoa%20ranch%2012-15-2022/491757965_9718244574919719_3042173133725601820_n.jpg" alt="Matthew at Kualoa Ranch"></article>
+        <article class="module about-copy"><div class="module-title"><span class="led green"></span>JURASSIC MATT</div><div class="about-text"><p>I work in cybersecurity in Florida and have loved dinosaurs for as long as I can remember. In 2026 I decided to take that interest more seriously through structured study, field experience, fossil collecting, research notes, and this public archive.</p><p>This site is not meant to present me as a professional paleontologist. It documents an amateur learning seriously, building skills, joining the fossil community, and keeping track of the things that make prehistoric life fascinating.</p><p class="terminal-quip">Cybersecurity footnote: Nedry probably would have had a harder time if I were on the park's security team.</p></div></article>
+      </div>
+    </section>
   </main>
+
+  <footer class="terminal-footer">
+    <div><span class="led green"></span>JURASSIC MATT FIELD TERMINAL</div>
+    <div class="pulse-line">⌁ DATA SYNCHRONIZED ⌁</div>
+    <div>RESPECT THE PAST. STAY CURIOUS. <span class="footer-lights"><i></i><i></i><i></i></span></div>
+  </footer>
+</div>
+
+<div class="species-modal" id="speciesModal" aria-hidden="true">
+  <div class="species-modal-card">
+    <button class="modal-close" id="speciesModalClose" type="button">×</button>
+    <div class="module-title"><span class="led green"></span>SPECIES DOSSIER</div>
+    <div id="speciesModalContent"></div>
+  </div>
+</div>
+
+<div class="photo-lightbox" id="photoLightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" type="button">×</button>
+  <button class="lightbox-prev" id="lightboxPrev" type="button">‹</button>
+  <img id="lightboxImage" alt="">
+  <button class="lightbox-next" id="lightboxNext" type="button">›</button>
+  <div id="lightboxCaption"></div>
 </div>
 
 <script src="script.js"></script>
