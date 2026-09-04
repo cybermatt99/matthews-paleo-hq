@@ -16,6 +16,9 @@
 .dex-media-credit .license{color:#84b157}
 .dex-media-hint{display:inline-block;margin-left:6px;color:#6f8955}
 .dex-media-enhanced #dexModalImage,.dex-media-enhanced #dexImageCredit,.dex-media-enhanced .dex-dossier-fallback{display:none!important}
+/* Keep Dino-Dex thumbnails intact instead of cropping heads, tails, sails, or mounts. */
+.dex-card-image{background:radial-gradient(circle at 50% 45%,#1e2d18,#091008 72%)!important}
+.dex-card-image .dex-wiki-img{box-sizing:border-box!important;object-fit:contain!important;object-position:center!important;padding:6px!important;background:transparent!important}
 img:not(.no-zoom){cursor:zoom-in}
 .album-card img,.gallery-photo img,.curator-photo,.about-photo img,.expedition-feature img,.dex-wiki-img{cursor:zoom-in!important}
 .universal-image-viewer{position:fixed;z-index:20000;inset:0;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(2,4,3,.94);backdrop-filter:blur(4px)}
