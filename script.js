@@ -19,8 +19,8 @@
     root.querySelectorAll('[data-goto]').forEach(el => {
       if(el.dataset.bound === '1') return;
       el.dataset.bound = '1';
-      el.setAttribute('role', 'link');
-      el.setAttribute('tabindex', '0');
+      el.setAttribute('role','link');
+      el.setAttribute('tabindex','0');
       el.addEventListener('click', () => go(el.dataset.goto));
       el.addEventListener('keydown', e => {
         if(e.key === 'Enter' || e.key === ' '){
@@ -43,6 +43,44 @@
   if(counter) counter.textContent = String(count).padStart(7,'0');
   const year = document.getElementById('copyrightYear');
   if(year) year.textContent = new Date().getFullYear();
+
+  function applyProfileUpdates(){
+    const milestoneItems = [...document.querySelectorAll('#page-home .progress-list li')];
+    const clubMilestone = milestoneItems.find(li => li.textContent.includes('Tampa Bay Fossil Club'));
+    if(clubMilestone){
+      clubMilestone.innerHTML = '<div class="progress-icon done">✓</div><div><div class="done"><strong>Tampa Bay Fossil Club</strong></div><div class="small">Active member · Joined September 2026</div></div>';
+    }
+
+    const fieldMilestone = milestoneItems.find(li => li.textContent.includes('First Florida Field Trip'));
+    if(fieldMilestone){
+      fieldMilestone.innerHTML = '<div class="progress-icon pending">•</div><div><div><strong>First Florida Field Trip</strong></div><div class="small">Considering Peace River · September 12, 2026</div></div>';
+    }
+
+    const credentialPanels = [...document.querySelectorAll('#page-credentials article.panel')];
+    const clubPanel = credentialPanels.find(p => p.querySelector('h2')?.textContent.includes('Tampa Bay Fossil Club'));
+    if(clubPanel){
+      const body = clubPanel.querySelector('.panel-body');
+      if(body) body.innerHTML = '<div class="done"><strong>Active member</strong></div><p class="small">Joined September 2026. Membership confirmed and the September Tampa Bay Fossil Chronicles newsletter received.</p>';
+    }
+
+    const fieldPanels = [...document.querySelectorAll('#page-field article.panel')];
+    const floridaPanel = fieldPanels.find(p => p.querySelector('h2')?.textContent.trim() === 'Florida');
+    if(floridaPanel){
+      const body = floridaPanel.querySelector('.panel-body');
+      if(body) body.innerHTML = '<p><strong>Next goal:</strong> first Tampa Bay Fossil Club field trip.</p><p class="small">Active TBFC member as of September 2026. The September 12 Peace River trip in Wauchula is the first trip under consideration.</p>';
+    }
+
+    const homeFieldPanel = [...document.querySelectorAll('#page-home article.panel')].find(p => p.querySelector('h2')?.textContent.includes('Field Plans'));
+    if(homeFieldPanel){
+      const items = [...homeFieldPanel.querySelectorAll('.timeline-item')];
+      const florida = items.find(i => i.textContent.includes('Florida fossil collecting'));
+      const peace = items.find(i => i.textContent.includes('Peace River'));
+      if(florida) florida.innerHTML = '<strong>Florida fossil collecting</strong><div class="small">Active Tampa Bay Fossil Club member; building local field experience</div>';
+      if(peace) peace.innerHTML = '<strong>Peace River</strong><div class="small">September 12, 2026 club trip under consideration</div>';
+    }
+  }
+
+  applyProfileUpdates();
 
   const albums = [
     {
@@ -143,9 +181,7 @@
     .photo-lightbox-img{max-width:100%;max-height:82vh;object-fit:contain;box-shadow:0 8px 40px #000}
     .photo-lightbox-caption{margin-top:9px;color:#e8dcc5;font-size:13px;text-align:center}
     .lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;background:rgba(20,15,11,.78);color:#fff;border:1px solid #9a8464;cursor:pointer;font-size:24px;line-height:1;padding:9px 12px}
-    .lightbox-close{right:0;top:-46px}
-    .lightbox-prev{left:-58px;top:45%}
-    .lightbox-next{right:-58px;top:45%}
+    .lightbox-close{right:0;top:-46px}.lightbox-prev{left:-58px;top:45%}.lightbox-next{right:-58px;top:45%}
     @media(max-width:1000px){.album-index{grid-template-columns:repeat(2,minmax(0,1fr))}.real-gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.gallery-photo.featured{min-height:300px}.home-trip-feature{grid-template-columns:1fr 1fr}}
     @media(max-width:720px){.album-index{grid-template-columns:1fr}.real-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery-photo.featured{grid-column:span 2;grid-row:span 1;min-height:230px}.home-trip-feature{grid-template-columns:1fr}.album-head{display:block}.album-meta{margin-top:8px}.lightbox-prev{left:4px}.lightbox-next{right:4px}.photo-lightbox{padding:14px}}
   `;
@@ -154,14 +190,7 @@
   const lightbox = document.createElement('div');
   lightbox.className = 'photo-lightbox';
   lightbox.setAttribute('aria-hidden','true');
-  lightbox.innerHTML = `
-    <div class="photo-lightbox-inner">
-      <button class="lightbox-close" aria-label="Close photo">×</button>
-      <button class="lightbox-prev" aria-label="Previous photo">‹</button>
-      <img class="photo-lightbox-img" alt="" />
-      <button class="lightbox-next" aria-label="Next photo">›</button>
-      <div class="photo-lightbox-caption"></div>
-    </div>`;
+  lightbox.innerHTML = '<div class="photo-lightbox-inner"><button class="lightbox-close" aria-label="Close photo">×</button><button class="lightbox-prev" aria-label="Previous photo">‹</button><img class="photo-lightbox-img" alt="" /><button class="lightbox-next" aria-label="Next photo">›</button><div class="photo-lightbox-caption"></div></div>';
   document.body.appendChild(lightbox);
 
   let lightboxItems = [];
@@ -238,16 +267,7 @@
     const photoPanel = homePanels.find(p => p.querySelector('h2')?.textContent.includes('Photos and Trips'));
     if(!photoPanel || !album._files.length) return;
     const body = photoPanel.querySelector('.panel-body');
-    body.innerHTML = `
-      <div class="home-trip-feature">
-        <img class="home-trip-photo" alt="Kualoa Ranch, Oahu" />
-        <div>
-          <div class="home-trip-title">Kualoa Ranch, Oahu</div>
-          <div class="small">December 15, 2022 · Oahu, Hawaii</div>
-          <p class="small">A visit to Kualoa Ranch during our Hawaii wedding and honeymoon trip, including Jurassic filming locations and a very rainy day in the valley.</p>
-          <div class="linkish" data-goto="gallery">View the photo albums »</div>
-        </div>
-      </div>`;
+    body.innerHTML = '<div class="home-trip-feature"><img class="home-trip-photo" alt="Kualoa Ranch, Oahu" /><div><div class="home-trip-title">Kualoa Ranch, Oahu</div><div class="small">December 15, 2022 · Oahu, Hawaii</div><p class="small">A visit to Kualoa Ranch during our Hawaii wedding and honeymoon trip, including Jurassic filming locations and a very rainy day in the valley.</p><div class="linkish" data-goto="gallery">View the photo albums »</div></div></div>';
     const img = body.querySelector('.home-trip-photo');
     img.src = album._files[0].src;
     img.addEventListener('click', () => {
@@ -261,55 +281,36 @@
     albums.forEach(album => album._files = albumFiles(tree, album.folder));
     const galleryGrid = document.querySelector('#page-gallery .grid');
     if(!galleryGrid) return;
-
     galleryGrid.innerHTML = '';
 
     const intro = document.createElement('article');
     intro.className = 'panel span-12';
-    intro.innerHTML = '<h2>Photo Gallery</h2><div class="panel-body"><p class="gallery-intro">Trips, exhibits, museums, filming locations, and other dinosaur-related stops. Albums are kept chronological, with Kualoa Ranch featured first.</p></div>';
+    intro.innerHTML = '<h2>Photo Gallery</h2><div class="panel-body"><p class="gallery-intro">Trips, exhibits, fossil hunting, museums, and other dinosaur-related things worth keeping together.</p></div>';
     galleryGrid.appendChild(intro);
 
     const indexPanel = document.createElement('article');
     indexPanel.className = 'panel span-12';
     indexPanel.innerHTML = '<h2>Albums</h2><div class="panel-body"><div class="album-index"></div></div>';
     const albumIndex = indexPanel.querySelector('.album-index');
-    galleryGrid.appendChild(indexPanel);
 
-    albums.forEach(album => {
-      if(!album._files.length) return;
+    albums.filter(a => a._files.length).forEach(album => {
       const card = document.createElement('div');
       card.className = 'album-card';
       card.tabIndex = 0;
-      card.innerHTML = `
-        <img class="album-card-cover" src="${album._files[0].src}" alt="${album.title}" loading="lazy" />
-        <div class="album-card-copy">
-          <div class="album-card-title">${album.title}</div>
-          <div class="album-card-meta">${album.date}${album.place ? ' · ' + album.place : ''}</div>
-          <div class="album-card-count">${album._files.length} photo${album._files.length === 1 ? '' : 's'}</div>
-        </div>`;
+      card.innerHTML = '<img class="album-card-cover" alt="' + album.title + '" /><div class="album-card-copy"><div class="album-card-title">' + album.title + '</div><div class="album-card-meta">' + album.date + (album.place ? ' · ' + album.place : '') + '</div><div class="album-card-count">' + album._files.length + ' photo' + (album._files.length === 1 ? '' : 's') + '</div></div>';
+      card.querySelector('img').src = album._files[0].src;
       const jump = () => document.getElementById('album-' + album.id)?.scrollIntoView({behavior:'smooth',block:'start'});
       card.addEventListener('click', jump);
       card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); jump(); } });
       albumIndex.appendChild(card);
     });
+    galleryGrid.appendChild(indexPanel);
 
-    albums.forEach(album => {
-      if(!album._files.length) return;
+    albums.filter(a => a._files.length).forEach(album => {
       const section = document.createElement('article');
       section.className = 'panel span-12 album-section' + (album._files.length > 8 ? ' collapsed' : '');
       section.id = 'album-' + album.id;
-      section.innerHTML = `
-        <h2>${album.title}</h2>
-        <div class="panel-body">
-          <div class="album-head">
-            <div class="album-copy">
-              <div class="album-date">${album.date}${album.place ? ' · ' + album.place : ''}</div>
-              <div class="small">${album.description}</div>
-            </div>
-            <div class="album-meta">${album._files.length} photo${album._files.length === 1 ? '' : 's'}</div>
-          </div>
-          <div class="real-gallery-grid"></div>
-        </div>`;
+      section.innerHTML = '<h2>' + album.title + '</h2><div class="panel-body"><div class="album-head"><div class="album-copy"><div class="album-date">' + album.date + (album.place ? ' · ' + album.place : '') + '</div><div class="small">' + album.description + '</div></div><div class="album-meta">' + album._files.length + ' photo' + (album._files.length === 1 ? '' : 's') + '</div></div><div class="real-gallery-grid"></div></div>';
       const grid = section.querySelector('.real-gallery-grid');
       album._files.forEach((file,index) => grid.appendChild(buildPhotoFigure(album,file,index,album._files.length)));
       if(album._files.length > 8){
